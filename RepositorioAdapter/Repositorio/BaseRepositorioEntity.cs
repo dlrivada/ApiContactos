@@ -1,50 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Linq.Expressions;
 using RepositorioAdapter.Adapter;
 
 namespace RepositorioAdapter.Repositorio
 {
-    class BaseRepositorioEntity<TEntityModel, TDtoModel, TAdapter> : IRepositorio<TEntityModel, TDtoModel, TAdapter> where TAdapter : IAdapter<TEntityModel, TDtoModel>, new() where TEntityModel : class where TDtoModel : class
+    public class BaseRepositorioEntity<TEntityModel, TViewModel, TAdapter> : IRepositorio<TEntityModel, TViewModel> where TAdapter : IAdapter<TEntityModel, TViewModel>, new() where TEntityModel : class where TViewModel : class
     {
-        public TDtoModel Add(TDtoModel model)
+        protected DbContext Context;
+        private TAdapter _adapter;
+
+        protected TAdapter Adapter
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (object.Equals(_adapter, default(TAdapter)))
+                    _adapter = new TAdapter();
+                return _adapter;
+            }
         }
 
-        public int Delete(params object[] keys)
+        public BaseRepositorioEntity(DbContext context)
         {
-            throw new NotImplementedException();
+            Context = context;
         }
 
-        public int Delete(TDtoModel model)
+        public virtual TViewModel Add(TViewModel model)
         {
-            throw new NotImplementedException();
+            TEntityModel guardado = Adapter.FromViewModel(model);
+            Context.Set<TEntityModel>().Add(guardado);
+            try
+            {
+                Context.SaveChanges();
+                return Adapter.FromModel(guardado);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public int Delete(Expression<Func<TDtoModel, bool>> expression)
+        public virtual int Delete(params object[] keys)
         {
-            throw new NotImplementedException();
+            TEntityModel data = Context.Set<TEntityModel>().Find(keys);
+            Context.Set<TEntityModel>().Remove(data);
+            try
+            {
+                return Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
-        public int Update(TDtoModel model)
+        public virtual int Delete(TViewModel model)
         {
-            throw new NotImplementedException();
+            TEntityModel guardar = Adapter.FromViewModel(model);
+            Context.Entry(guardar).State = EntityState.Deleted;
+            try
+            {
+                return Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
-        public TDtoModel Get(params object[] keys)
+        public virtual int Delete(Expression<Func<TEntityModel, bool>> expression)
         {
-            throw new NotImplementedException();
+            IQueryable<TEntityModel> guardar = Context.Set<TEntityModel>().Where(expression);
+            Context.Set<TEntityModel>().RemoveRange(guardar);
+            try
+            {
+                return Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
-        public ICollection<TDtoModel> Get(Expression<Func<TDtoModel, bool>> expression)
+        public virtual int Update(TViewModel model)
         {
-            throw new NotImplementedException();
+            TEntityModel guardar = Adapter.FromViewModel(model);
+            Context.Entry(guardar).State = EntityState.Modified;
+            try
+            {
+                return Context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
         }
 
-        public ICollection<TDtoModel> Get()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual TViewModel Get(params object[] keys) => Adapter.FromModel(Context.Set<TEntityModel>().Find(keys));
+
+        public virtual ICollection<TViewModel> Get(Expression<Func<TEntityModel, bool>> expression) => Adapter.FromModel(Context.Set<TEntityModel>().Where(expression).ToList());
+
+        public virtual ICollection<TViewModel> Get() => Adapter.FromModel(Context.Set<TEntityModel>().ToList());
     }
 }
