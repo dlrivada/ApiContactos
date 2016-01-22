@@ -4,15 +4,15 @@ using System.Linq.Expressions;
 
 namespace RepositorioAdapter.Repositorio
 {
-    public interface IRepositorio<TEntityModel, TViewModel>
+    public interface IRepositorio<TEntityModel>
     {
-        TViewModel Add(TViewModel model);
+        TEntityModel Add(TEntityModel model);
         int Delete(params object[] keys);
-        int Delete(TViewModel model);
+        int Delete(TEntityModel model);
         int Delete(Expression<Func<TEntityModel, bool>> expression);
-        int Update(TViewModel model);
-        TViewModel Get(params object[] keys);
-        ICollection<TViewModel> Get(Expression<Func<TEntityModel, bool>> expression);
-        ICollection<TViewModel> Get();
+        int Update(TEntityModel model);
+        TEntityModel Get(params object[] keys);
+        ICollection<TEntityModel> Get(Expression<Func<TEntityModel, bool>> expression);
+        ICollection<TEntityModel> Get();
     }
 }

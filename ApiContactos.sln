@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositorioAdapter", "Repos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactosModel", "ContactosModel\ContactosModel.csproj", "{3C816FED-4133-4FBB-B215-DD516C329F25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkDB", "EntityFrameworkDB\EntityFrameworkDB.csproj", "{9763D781-4C95-4BD3-90B7-DF1486216D75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3C816FED-4133-4FBB-B215-DD516C329F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C816FED-4133-4FBB-B215-DD516C329F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C816FED-4133-4FBB-B215-DD516C329F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

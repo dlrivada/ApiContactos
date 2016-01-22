@@ -3,38 +3,26 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using RepositorioAdapter.Adapter;
 
 namespace RepositorioAdapter.Repositorio
 {
-    public class BaseRepositorioEntity<TEntityModel, TViewModel, TAdapter> : IRepositorio<TEntityModel, TViewModel> where TAdapter : IAdapter<TEntityModel, TViewModel>, new() where TEntityModel : class where TViewModel : class
+    public class BaseRepositorioEntity<TEntityModel> : IRepositorio<TEntityModel> where TEntityModel : class
     {
-        protected DbContext Context;
-        private TAdapter _adapter;
+        protected readonly DbContext Context;
 
-        protected TAdapter Adapter
-        {
-            get
-            {
-                if (object.Equals(_adapter, default(TAdapter)))
-                    _adapter = new TAdapter();
-                return _adapter;
-            }
-        }
-
-        public BaseRepositorioEntity(DbContext context)
+        protected BaseRepositorioEntity(DbContext context)
         {
             Context = context;
         }
 
-        public virtual TViewModel Add(TViewModel model)
+        public virtual TEntityModel Add(TEntityModel model)
         {
-            TEntityModel guardado = Adapter.FromViewModel(model);
+            TEntityModel guardado = model;
             Context.Set<TEntityModel>().Add(guardado);
             try
             {
                 Context.SaveChanges();
-                return Adapter.FromModel(guardado);
+                return guardado;
             }
             catch (Exception)
             {
@@ -56,10 +44,9 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual int Delete(TViewModel model)
+        public virtual int Delete(TEntityModel model)
         {
-            TEntityModel guardar = Adapter.FromViewModel(model);
-            Context.Entry(guardar).State = EntityState.Deleted;
+            Context.Entry(model).State = EntityState.Deleted;
             try
             {
                 return Context.SaveChanges();
@@ -84,10 +71,9 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual int Update(TViewModel model)
+        public virtual int Update(TEntityModel model)
         {
-            TEntityModel guardar = Adapter.FromViewModel(model);
-            Context.Entry(guardar).State = EntityState.Modified;
+            Context.Entry(model).State = EntityState.Modified;
             try
             {
                 return Context.SaveChanges();
@@ -98,10 +84,10 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual TViewModel Get(params object[] keys) => Adapter.FromModel(Context.Set<TEntityModel>().Find(keys));
+        public virtual TEntityModel Get(params object[] keys) => Context.Set<TEntityModel>().Find(keys);
 
-        public virtual ICollection<TViewModel> Get(Expression<Func<TEntityModel, bool>> expression) => Adapter.FromModel(Context.Set<TEntityModel>().Where(expression).ToList());
+        public virtual ICollection<TEntityModel> Get(Expression<Func<TEntityModel, bool>> expression) => Context.Set<TEntityModel>().Where(expression).ToList();
 
-        public virtual ICollection<TViewModel> Get() => Adapter.FromModel(Context.Set<TEntityModel>().ToList());
+        public virtual ICollection<TEntityModel> Get() => Context.Set<TEntityModel>().ToList();
     }
 }
