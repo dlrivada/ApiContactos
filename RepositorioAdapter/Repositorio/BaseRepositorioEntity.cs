@@ -6,8 +6,21 @@ using System.Linq.Expressions;
 
 namespace RepositorioAdapter.Repositorio
 {
-    public class BaseRepositorioEntity<TEntityModel> : IRepositorio<TEntityModel> where TEntityModel : class
+    // Este repositorio usa el tipo DbContext que pertenece al EntityFramework, 
+    // por lo que está fuertemente acoplado a la persitencia concreta que se ha elegido
+    // Para desacoplarlo de la persistencia implementarlo en 
+    // UsuarioRepositorio, prescindir de Generics, y usar Unidades de Trabajo
+    // TODO: implementar una Unidad de trabajo
+    // TODO: prescindir de Generics
+    // TODO: Usar Unidad de Trabajo
+    public class BaseRepositorioEntity<TModel> : IRepositorio<TModel> where TModel : class
     {
+        // Contexto de conexión y almacén de instacias del modelo
+        // Ojo! Cuidado con replicar (o multiplicar) toda la Base de Datos en la Memoria.
+        // Además es necesario impedir al usuario del repositorio que instacie el Contexto para
+        // para tener nosotros siempre el control de la memoria consumida y del estado de la conexión
+        // para eso hay que usar IoC 
+        // Para acceder al almacen de instacias usar el DbSet<> del Context
         protected readonly DbContext Context;
 
         protected BaseRepositorioEntity(DbContext context)
@@ -15,10 +28,10 @@ namespace RepositorioAdapter.Repositorio
             Context = context;
         }
 
-        public virtual TEntityModel Add(TEntityModel model)
+        public virtual TModel Add(TModel model)
         {
-            TEntityModel guardado = model;
-            Context.Set<TEntityModel>().Add(guardado);
+            TModel guardado = model;
+            Context.Set<TModel>().Add(guardado);
             try
             {
                 Context.SaveChanges();
@@ -32,8 +45,8 @@ namespace RepositorioAdapter.Repositorio
 
         public virtual int Delete(params object[] keys)
         {
-            TEntityModel data = Context.Set<TEntityModel>().Find(keys);
-            Context.Set<TEntityModel>().Remove(data);
+            TModel data = Context.Set<TModel>().Find(keys);
+            Context.Set<TModel>().Remove(data);
             try
             {
                 return Context.SaveChanges();
@@ -44,7 +57,7 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual int Delete(TEntityModel model)
+        public virtual int Delete(TModel model)
         {
             Context.Entry(model).State = EntityState.Deleted;
             try
@@ -57,10 +70,10 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual int Delete(Expression<Func<TEntityModel, bool>> expression)
+        public virtual int Delete(Expression<Func<TModel, bool>> expression)
         {
-            IQueryable<TEntityModel> guardar = Context.Set<TEntityModel>().Where(expression);
-            Context.Set<TEntityModel>().RemoveRange(guardar);
+            IQueryable<TModel> guardar = Context.Set<TModel>().Where(expression);
+            Context.Set<TModel>().RemoveRange(guardar);
             try
             {
                 return Context.SaveChanges();
@@ -71,7 +84,7 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual int Update(TEntityModel model)
+        public virtual int Update(TModel model)
         {
             Context.Entry(model).State = EntityState.Modified;
             try
@@ -84,10 +97,8 @@ namespace RepositorioAdapter.Repositorio
             }
         }
 
-        public virtual TEntityModel Get(params object[] keys) => Context.Set<TEntityModel>().Find(keys);
-
-        public virtual ICollection<TEntityModel> Get(Expression<Func<TEntityModel, bool>> expression) => Context.Set<TEntityModel>().Where(expression).ToList();
-
-        public virtual ICollection<TEntityModel> Get() => Context.Set<TEntityModel>().ToList();
+        public virtual TModel Get(params object[] keys) => Context.Set<TModel>().Find(keys);
+        public virtual ICollection<TModel> Get(Expression<Func<TModel, bool>> expression) => Context.Set<TModel>().Where(expression).ToList();
+        public virtual ICollection<TModel> Get() => Context.Set<TModel>().ToList();
     }
 }

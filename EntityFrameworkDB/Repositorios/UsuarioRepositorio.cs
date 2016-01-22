@@ -16,5 +16,7 @@ namespace EntityFrameworkDB.Repositorios
         public bool IsUnico(string login) => !Get(o => o.Login == login).Any();
 
         public override Usuario Add(Usuario model) => IsUnico(model.Login) ? base.Add(model) : null;
+
+
     }
 }
