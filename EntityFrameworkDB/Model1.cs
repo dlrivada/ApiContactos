@@ -33,15 +33,32 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Usuario>().Property(uw => uw.Login).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Password).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Nombre).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(500);
+            modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).IsRequired().HasMaxLength(50);
 
             modelBuilder.Entity<Mensaje>().ToTable("Mensaje");
             modelBuilder.Entity<Mensaje>().HasKey(ur => ur.Id);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Asunto).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Mensaje>().Property(ur => ur.Contenido).IsRequired().HasMaxLength(50);
-        }
+            modelBuilder.Entity<Mensaje>().Property(ur => ur.Contenido).IsRequired().HasMaxLength(500);
 
+            modelBuilder.Entity<Usuario>()
+            .HasMany(entity => entity.Contactos)
+            .WithMany(child => child.ContatoDe)
+            .Map(map =>
+            {
+                map.ToTable("Contacto");
+                map.MapLeftKey("IdUsuario");
+                map.MapRightKey("IdAmigo");
+            });
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(t => t.MensajesEnviados)
+                .WithRequired(t => t.Origen);
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(t => t.MensajesRecibidos)
+                .WithMany(t => t.Destino);
+        }
     }
 }
