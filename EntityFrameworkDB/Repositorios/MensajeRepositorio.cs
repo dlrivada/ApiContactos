@@ -97,6 +97,11 @@ namespace EntityFrameworkDB.Repositorios
         public virtual Mensaje Get(params object[] keys) => _context.Set<Mensaje>().Find(keys);
         public virtual ICollection<Mensaje> Get(Expression<Func<Mensaje, bool>> expression) => _context.Set<Mensaje>().Where(expression).ToList();
         public virtual ICollection<Mensaje> Get() => _context.Set<Mensaje>().ToList();
+
+        public ICollection<Mensaje> GetByDestino(int idDestino) => Get(o => o.IdDestino == idDestino).OrderByDescending(o => o.Fecha).ToList();
+
+        public ICollection<Mensaje> GetByOrigen(int idOrigen) => Get(o => o.IdOrigen == idOrigen).OrderByDescending(o => o.Fecha).ToList();
+
         public void Dispose()
         {
             _context.Dispose();

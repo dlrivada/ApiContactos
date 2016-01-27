@@ -46,7 +46,7 @@ namespace EntityFrameworkDB
 
             modelBuilder.Entity<Usuario>()
             .HasMany(entity => entity.Contactos)
-            .WithMany(child => child.ContatoDe)
+            .WithMany(child => child.ContactoDe)
             .Map(map =>
             {
                 map.ToTable("Contacto");

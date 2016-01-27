@@ -19,7 +19,6 @@ namespace EntityFrameworkDB.Repositorios
         private readonly DbContext _context;
         public DbContext Context => _context;
 
-
         public virtual int Delete(params object[] keys)
         {
             Usuario data = _context.Set<Usuario>().Find(keys);
