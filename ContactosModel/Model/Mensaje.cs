@@ -11,7 +11,7 @@ namespace ContactosModel.Model
         public bool Leido { get; set; }
         public System.DateTime Fecha { get; set; }
 
-        public virtual ICollection<Usuario> Destino { get; set; }
+        public virtual Usuario Destino { get; set; }
         public virtual Usuario Origen { get; set; }
     }
 }

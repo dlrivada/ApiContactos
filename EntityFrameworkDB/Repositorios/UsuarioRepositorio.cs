@@ -8,7 +8,7 @@ using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
 {
-    public class UsuarioRepositorio : IRepositorioCanRead<Usuario>, IRepositorioCanAdd<Usuario>, IRepositorioCanDelete<Usuario>, IRepositorioCanUpdate<Usuario>
+    public class UsuarioRepositorio : IRepositorioCanRead<Usuario>, IRepositorioCanAdd<Usuario>, IRepositorioCanDelete<Usuario>, IRepositorioCanUpdate<Usuario>, IRepositorio<Usuario>, IDisposable
     {
         // Contexto de conexión y almacén de instacias del modelo
         // Ojo! Cuidado con replicar (o multiplicar) toda la Base de Datos en la Memoria.
@@ -17,6 +17,8 @@ namespace EntityFrameworkDB.Repositorios
         // para eso hay que usar IoC 
         // Para acceder al almacen de instacias usar el DbSet<> del Context
         private readonly DbContext _context;
+        public DbContext Context => _context;
+
 
         public virtual int Delete(params object[] keys)
         {
@@ -80,13 +82,11 @@ namespace EntityFrameworkDB.Repositorios
         {
             _context = context;
         }
-
         public Usuario Validar(string login, string password)
         {
             ICollection<Usuario> usuario = Get(o => o.Login == login && o.Password == password);
             return usuario.Any() ? usuario.First() : null;
         }
-
         public bool IsUnico(string login) => !Get(o => o.Login == login).Any();
 
         public Usuario Add(Usuario model)
@@ -103,6 +103,11 @@ namespace EntityFrameworkDB.Repositorios
             {
                 return null;
             }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }

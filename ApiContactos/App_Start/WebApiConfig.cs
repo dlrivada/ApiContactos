@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
+using Microsoft.Practices.Unity;
 
 namespace ApiContactos
 {
@@ -14,6 +15,9 @@ namespace ApiContactos
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             UnityConfig.RegisterComponents();
+
+            config.EnableCors(); // To allow that some of the requests are of type CORS
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

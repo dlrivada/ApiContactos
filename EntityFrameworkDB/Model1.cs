@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using ContactosModel.Model;
 
 namespace EntityFrameworkDB
@@ -25,7 +26,8 @@ namespace EntityFrameworkDB
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Configuration.LazyLoadingEnabled = true;
+            Configuration.LazyLoadingEnabled = false;
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<Usuario>().HasKey(uw => uw.Id);
@@ -58,7 +60,7 @@ namespace EntityFrameworkDB
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesRecibidos)
-                .WithMany(t => t.Destino);
+                .WithRequired(t => t.Destino);
         }
     }
 }

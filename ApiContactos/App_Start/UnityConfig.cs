@@ -11,13 +11,13 @@ namespace ApiContactos
     {
         public static void RegisterComponents()
         {
-            using (UnityContainer container = new UnityContainer())
-            {
-                container.RegisterType<DbContext, Model1>();
-                container.RegisterType<UsuarioRepositorio>();
-                container.RegisterType<MensajeRepositorio>();
-                GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
-            }
+            UnityContainer container = new UnityContainer();
+
+            container.RegisterType<DbContext, Model1>();
+            container.RegisterType<UsuarioRepositorio>();
+            container.RegisterType<MensajeRepositorio>();
+
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
 }

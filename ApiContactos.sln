@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiContactos", "ApiContactos\ApiContactos.csproj", "{0376878E-EE91-4778-A37A-AB853D64350F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositorioAdapter", "RepositorioAdapter\RepositorioAdapter.csproj", "{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorio", "RepositorioAdapter\Repositorio.csproj", "{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactosModel", "ContactosModel\ContactosModel.csproj", "{3C816FED-4133-4FBB-B215-DD516C329F25}"
 EndProject

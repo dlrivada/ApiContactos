@@ -8,8 +8,10 @@ using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
 {
-    public class MensajeRepositorio : IRepositorioCanRead<Mensaje>, IRepositorioCanAdd<Mensaje>, IRepositorioCanDelete<Mensaje>, IRepositorioCanUpdate<Mensaje>
+    public class MensajeRepositorio : IRepositorioCanRead<Mensaje>, IRepositorioCanAdd<Mensaje>, IRepositorioCanDelete<Mensaje>, IRepositorioCanUpdate<Mensaje>, IRepositorio<Usuario>, IDisposable
     {
+        private readonly DbContext _context;
+        public DbContext Context => _context;
 
         // Contexto de conexión y almacén de instacias del modelo
         // Ojo! Cuidado con replicar (o multiplicar) toda la Base de Datos en la Memoria.
@@ -17,7 +19,6 @@ namespace EntityFrameworkDB.Repositorios
         // para tener nosotros siempre el control de la memoria consumida y del estado de la conexión
         // para eso hay que usar IoC 
         // Para acceder al almacen de instacias usar el DbSet<> del Context
-        private readonly DbContext _context;
 
         public MensajeRepositorio(DbContext context)
         {
@@ -96,5 +97,9 @@ namespace EntityFrameworkDB.Repositorios
         public virtual Mensaje Get(params object[] keys) => _context.Set<Mensaje>().Find(keys);
         public virtual ICollection<Mensaje> Get(Expression<Func<Mensaje, bool>> expression) => _context.Set<Mensaje>().Where(expression).ToList();
         public virtual ICollection<Mensaje> Get() => _context.Set<Mensaje>().ToList();
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }
