@@ -11,7 +11,7 @@ namespace ApiContactos
     {
         public static void RegisterComponents()
         {
-            using (var container = new UnityContainer())
+            using (UnityContainer container = new UnityContainer())
             {
                 container.RegisterType<DbContext, Model1>();
                 container.RegisterType<UsuarioRepositorio>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using ContactosModel.Model;
 
 namespace RepositorioAdapter.Repositorio
 {
@@ -16,13 +17,8 @@ namespace RepositorioAdapter.Repositorio
     // Es necesario impedir consultas del tipo "Dame todos los Usuarios", 
     // hay que ordenar siempre los resultados 
     // y paginarlos para que no repliquemos grandes cantidades de la DDBB en la memoria.
-    public interface IRepositorio<TModel>
+    public interface IRepositorioCanRead<TModel> where TModel : DomainModel
     {
-        TModel Add(TModel model);
-        int Delete(params object[] keys);
-        int Delete(TModel model);
-        int Delete(Expression<Func<TModel, bool>> expression);
-        int Update(TModel model);
         TModel Get(params object[] keys);
         // TODO: Habría que implementar paginación y ordenación de datos
         ICollection<TModel> Get(Expression<Func<TModel, bool>> expression);

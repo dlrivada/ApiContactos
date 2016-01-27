@@ -2,9 +2,8 @@
 
 namespace ContactosModel.Model
 {
-    public class Mensaje
+    public class Mensaje : DomainModel
     {
-        public int Id { get; set; }
         public int IdOrigen { get; set; }
         public int IdDestino { get; set; }
         public string Asunto { get; set; }

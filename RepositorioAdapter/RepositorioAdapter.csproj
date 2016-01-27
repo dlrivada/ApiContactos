@@ -50,12 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorio\BaseRepositorioEntity.cs" />
-    <Compile Include="Repositorio\IRepositorio.cs" />
+    <Compile Include="Repositorio\IRepositorioCanRead.cs" />
+    <Compile Include="Repositorio\IRepositorioCanAdd.cs" />
+    <Compile Include="Repositorio\IRepositorioCanDelete.cs" />
+    <Compile Include="Repositorio\IRepositorioCanUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ContactosModel\ContactosModel.csproj">
+      <Project>{3C816FED-4133-4FBB-B215-DD516C329F25}</Project>
+      <Name>ContactosModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

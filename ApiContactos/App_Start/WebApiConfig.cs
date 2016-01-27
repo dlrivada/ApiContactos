@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http.Formatting;
+using System.Web.Http;
 
 namespace ApiContactos
 {
@@ -7,7 +8,7 @@ namespace ApiContactos
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-            var json = config.Formatters.JsonFormatter;
+            JsonMediaTypeFormatter json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling =
                 Newtonsoft.Json.PreserveReferencesHandling.Objects;
             config.Formatters.Remove(config.Formatters.XmlFormatter);
