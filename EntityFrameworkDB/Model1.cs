@@ -26,8 +26,14 @@ namespace EntityFrameworkDB
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            #region Context Settins
+
             Configuration.LazyLoadingEnabled = false;
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            #endregion
+
+            #region Usuario Fields
 
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<Usuario>().HasKey(uw => uw.Id);
@@ -38,21 +44,29 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).IsRequired().HasMaxLength(50);
 
+            #endregion
+
+            #region Mensaje Fields
+
             modelBuilder.Entity<Mensaje>().ToTable("Mensaje");
             modelBuilder.Entity<Mensaje>().HasKey(ur => ur.Id);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Asunto).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Contenido).IsRequired().HasMaxLength(500);
 
+            #endregion
+
+            #region Relations
+
             modelBuilder.Entity<Usuario>()
-            .HasMany(entity => entity.Contactos)
-            .WithMany(child => child.ContactoDe)
-            .Map(map =>
-            {
-                map.ToTable("Contacto");
-                map.MapLeftKey("IdUsuario");
-                map.MapRightKey("IdAmigo");
-            });
+                .HasMany(entity => entity.Contactos)
+                .WithMany(child => child.ContactoDe)
+                .Map(map =>
+                {
+                    map.ToTable("Contacto");
+                    map.MapLeftKey("IdUsuario");
+                    map.MapRightKey("IdAmigo");
+                });
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesEnviados)
@@ -61,6 +75,8 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesRecibidos)
                 .WithRequired(t => t.Destino);
+
+            #endregion
         }
     }
 }

@@ -17,20 +17,20 @@ namespace ApiContactos.Controllers
             MensajeRepositorio = mensajeRepositorio;
         }
 
-        public ICollection<Mensaje> Get(int id) => MensajeRepositorio.GetByDestino(id);
+        public ICollection<Mensaje> Get(int id, int pageIndex, int pageSize, out int numberOfPages) => MensajeRepositorio.GetByDestino(id, pageIndex, pageSize, out numberOfPages);
 
-        public ICollection<Mensaje> Get(int id,bool enviado) => MensajeRepositorio.GetByOrigen(id);
+        public ICollection<Mensaje> Get(int id, bool enviado, int pageIndex, int pageSize, out int numberOfPages) => MensajeRepositorio.GetByOrigen(id, pageIndex, pageSize, out numberOfPages);
 
-        [ResponseType(typeof (Mensaje))]
+        [ResponseType(typeof(Mensaje))]
         public IHttpActionResult Post(Mensaje model)
         {
-            Mensaje data= MensajeRepositorio.Add(model);
+            Mensaje data = MensajeRepositorio.Add(model);
             if (data == null)
                 return BadRequest();
             return Ok(data);
         }
 
-        [ResponseType(typeof (void))]
+        [ResponseType(typeof(void))]
         public IHttpActionResult Put(Mensaje model)
         {
             int data = MensajeRepositorio.Update(model);

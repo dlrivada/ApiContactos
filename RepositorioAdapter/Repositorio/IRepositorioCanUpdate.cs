@@ -1,13 +1,9 @@
-﻿using System.Data.Entity;
+﻿using ContactosModel.Model;
 
 namespace RepositorioAdapter.Repositorio
 {
-    public interface IRepositorioCanUpdate<in TModel>
+    public interface IRepositorioCanUpdate<in TModel> where TModel : DomainModel
     {
         int Update(TModel model);
-    }
-    public interface IRepositorio<in TModel>
-    {
-        DbContext Context { get; }
     }
 }

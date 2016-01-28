@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq.Expressions;
+using ContactosModel.Model;
 
 namespace RepositorioAdapter.Repositorio
 {
-    public interface IRepositorioCanDelete<TModel>
+    public interface IRepositorioCanDelete<TModel> where TModel : DomainModel
     {
         int Delete(params object[] keys);
         int Delete(TModel model);

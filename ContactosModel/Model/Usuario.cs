@@ -10,8 +10,8 @@ namespace ContactosModel.Model
         public string Apellidos { get; set; }
         public string Foto { get; set; }
 
-        public virtual ICollection<Mensaje> MensajesEnviados { get; set; }
-        public virtual ICollection<Mensaje> MensajesRecibidos { get; set; }
+        public ICollection<Mensaje> MensajesEnviados { get; set; }
+        public ICollection<Mensaje> MensajesRecibidos { get; set; }
         public ICollection<Usuario> Contactos { get; set; }
         public ICollection<Usuario> ContactoDe { get; set; } 
     }

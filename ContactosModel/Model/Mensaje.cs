@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ContactosModel.Model
+﻿namespace ContactosModel.Model
 {
     public class Mensaje : DomainModel
     {
@@ -11,7 +9,7 @@ namespace ContactosModel.Model
         public bool Leido { get; set; }
         public System.DateTime Fecha { get; set; }
 
-        public virtual Usuario Destino { get; set; }
-        public virtual Usuario Origen { get; set; }
+        public Usuario Destino { get; set; }
+        public Usuario Origen { get; set; }
     }
 }
