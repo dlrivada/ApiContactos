@@ -10,7 +10,6 @@ namespace RepositorioAdapter.Repositorio
     // por seguridad y para evitar transferencias de grandes cantidades de datos por canales limitados.
     public interface IRepositorioCanRead<TModel> where TModel : DomainModel
     {
-        TModel Get(params object[] keys);
         ICollection<TModel> Get(Expression<Func<TModel, bool>> expression, int pageIndex, int pageSize, out int numberOfPages);
         ICollection<TModel> Get(int pageIndex, int pageSize, out int numberOfPages);
     }

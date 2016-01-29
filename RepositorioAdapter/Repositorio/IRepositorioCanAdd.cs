@@ -4,6 +4,6 @@ namespace RepositorioAdapter.Repositorio
 {
     public interface IRepositorioCanAdd<TModel> where TModel : DomainModel
     {
-        TModel Add(TModel model);
+        void Add(TModel model);
     }
 }

@@ -6,7 +6,7 @@ namespace EntityFrameworkDB
 {
     using System.Data.Entity;
 
-    public class Model1 : DbContext
+    public class ContactosContext : DbContext
     {
         // Your context has been configured to use a 'Model1' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -14,7 +14,7 @@ namespace EntityFrameworkDB
         // 
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
-        public Model1() : base("name=Model1")
+        public ContactosContext() : base("name=Model1")
         {
         }
 

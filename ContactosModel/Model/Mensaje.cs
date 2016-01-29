@@ -2,8 +2,6 @@
 {
     public class Mensaje : DomainModel
     {
-        public int IdOrigen { get; set; }
-        public int IdDestino { get; set; }
         public string Asunto { get; set; }
         public string Contenido { get; set; }
         public bool Leido { get; set; }

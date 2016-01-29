@@ -1,26 +1,29 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using System.Web.Http.Description;
 using ContactosModel.Model;
-using EntityFrameworkDB.Repositorios;
 using Microsoft.Practices.Unity;
+using RepositorioAdapter.Repositorio;
+using RepositorioAdapter.UnitOfWork;
 
 namespace ApiContactos.Controllers
 {
     public class UsuariosController : ApiController
     {
-        [Dependency]
-        private UsuarioRepositorio UsuarioRepositorio { get; }
+        IUsuarioRepositorio _usuarioRepositorio;
+        IUnitOfWork _unitOfWork;
 
-        public UsuariosController(UsuarioRepositorio usuarioRepositorio)
+        public UsuariosController(IUsuarioRepositorio usuarioRepositorio, IUnitOfWork unitOfWork)
         {
-            UsuarioRepositorio = usuarioRepositorio;
+            _usuarioRepositorio = usuarioRepositorio;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetValido(string login, string password)
         {
-            Usuario data = UsuarioRepositorio.Validar(login, password);
+            Usuario data = _usuarioRepositorio.Validar(login, password);
             if (data == null)
                 return NotFound();
             return Ok(data);
@@ -28,27 +31,40 @@ namespace ApiContactos.Controllers
 
         [HttpGet]
         [ResponseType(typeof(bool))]
-        public IHttpActionResult GetUnico(string login) => Ok(UsuarioRepositorio.IsUnico(login));
+        public IHttpActionResult GetUnico(string login) => Ok(_usuarioRepositorio.IsUnico(login));
 
         [HttpPost]
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult Post(Usuario model)
         {
-            Usuario data = UsuarioRepositorio.Add(model);
-            if (data == null)
-                return BadRequest();
-            return Ok(data);
+            _usuarioRepositorio.Attach(model, EntityStatus.Modified);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _unitOfWork.SaveChanges();
+                }
+                catch (ConcurrencyException)
+                {
+                    ModelState.AddModelError(string.Empty, "The record you attempted to edit was modified by another user after you got the original value. Your edit operation was canceled. If you still want to edit this record, save it again.");
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to save changes. Please try again.");
+                }
+            }
+            return Ok(model);
         }
 
         [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult Put(int id, Usuario model)
         {
-            Usuario d = UsuarioRepositorio.Get(id);
+            Usuario d = _usuarioRepositorio.Get(id);
             if (d == null || d.Id != model.Id)
                 return NotFound();
 
-            int data = UsuarioRepositorio.Update(model);
+            int data = _usuarioRepositorio.Update(model);
             if (data < 1)
                 return BadRequest();
             return Ok();
@@ -58,10 +74,17 @@ namespace ApiContactos.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Put(int id)
         {
-            int data = UsuarioRepositorio.Delete(id);
+            int data = _usuarioRepositorio.Delete(id);
             if (data < 1)
                 return BadRequest();
             return Ok();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _usuarioRepositorio.Dispose();
+            _unitOfWork.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

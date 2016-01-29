@@ -52,11 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorio\IMensajeRepositorio.cs" />
     <Compile Include="Repositorio\IRepositorio.cs" />
     <Compile Include="Repositorio\IRepositorioCanRead.cs" />
     <Compile Include="Repositorio\IRepositorioCanAdd.cs" />
     <Compile Include="Repositorio\IRepositorioCanDelete.cs" />
     <Compile Include="Repositorio\IRepositorioCanUpdate.cs" />
+    <Compile Include="Repositorio\IUsuarioRepositorio.cs" />
+    <Compile Include="UnitOfWork\ConcurrencyException.cs" />
+    <Compile Include="UnitOfWork\EntityStatus.cs" />
+    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
