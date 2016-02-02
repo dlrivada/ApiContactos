@@ -46,7 +46,7 @@ namespace EntityFrameworkDB
 
             modelBuilder.Entity<Usuario>()
             .HasMany(entity => entity.Contactos)
-            .WithMany(child => child.ContatoDe)
+            .WithMany(child => child.ContactoDe)
             .Map(map =>
             {
                 map.ToTable("Contacto");
@@ -56,11 +56,11 @@ namespace EntityFrameworkDB
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesEnviados)
-                .WithRequired(t => t.Origen);
+                .WithOptional(t => t.Origen).Map(map => map.MapKey("IdOrigen"));
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesRecibidos)
-                .WithRequired(t => t.Destino);
+                .WithOptional(t => t.Destino).Map(map => map.MapKey("IdDestino"));
         }
     }
 }

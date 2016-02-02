@@ -8,7 +8,7 @@ using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
 {
-    public class UsuarioRepositorio : IRepositorioCanRead<Usuario>, IRepositorioCanAdd<Usuario>, IRepositorioCanDelete<Usuario>, IRepositorioCanUpdate<Usuario>, IRepositorio<Usuario>, IDisposable
+    public class UsuarioRepositorio : IUsuarioRepositorio
     {
         // Contexto de conexión y almacén de instacias del modelo
         // Ojo! Cuidado con replicar (o multiplicar) toda la Base de Datos en la Memoria.

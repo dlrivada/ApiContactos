@@ -8,7 +8,7 @@ using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
 {
-    public class MensajeRepositorio : IRepositorioCanRead<Mensaje>, IRepositorioCanAdd<Mensaje>, IRepositorioCanDelete<Mensaje>, IRepositorioCanUpdate<Mensaje>, IRepositorio<Usuario>, IDisposable
+    public class MensajeRepositorio : IMensajeRepositorio
     {
         private readonly DbContext _context;
         public DbContext Context => _context;
