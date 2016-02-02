@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ContactosModel.Model
+﻿namespace ContactosModel.Model
 {
     public class Mensaje : DomainModel
     {

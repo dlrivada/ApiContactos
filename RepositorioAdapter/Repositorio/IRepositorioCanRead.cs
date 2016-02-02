@@ -19,10 +19,7 @@ namespace RepositorioAdapter.Repositorio
     // y paginarlos para que no repliquemos grandes cantidades de la DDBB en la memoria.
     public interface IRepositorioCanRead<TModel> where TModel : DomainModel
     {
-        TModel Get(params object[] keys);
         // TODO: Habría que implementar paginación y ordenación de datos
         ICollection<TModel> Get(Expression<Func<TModel, bool>> expression);
-        // TODO: Este es un ejemplo de método no permitido que habría que eliminar y sustituir por búsquedas filtradas siempre
-        ICollection<TModel> Get();
     }
 }

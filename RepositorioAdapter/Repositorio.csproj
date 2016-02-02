@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorio\IMensajeRepositorio.cs" />
+    <Compile Include="Repositorio\IRepositorio.cs" />
     <Compile Include="Repositorio\IRepositorioCanRead.cs" />
     <Compile Include="Repositorio\IRepositorioCanAdd.cs" />
     <Compile Include="Repositorio\IRepositorioCanDelete.cs" />
