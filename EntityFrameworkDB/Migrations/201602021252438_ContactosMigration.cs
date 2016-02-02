@@ -1,5 +1,6 @@
 namespace EntityFrameworkDB.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     
     public partial class ContactosMigration : DbMigration
@@ -29,13 +30,14 @@ namespace EntityFrameworkDB.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Login = c.String(nullable: false, maxLength: 50),
+                        Login = c.String(maxLength: 255),
                         Password = c.String(nullable: false, maxLength: 50),
                         Nombre = c.String(nullable: false, maxLength: 50),
                         Apellidos = c.String(nullable: false, maxLength: 50),
-                        Foto = c.String(nullable: false, maxLength: 50),
+                        Foto = c.String(maxLength: 50),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Login, unique: true, name: "Index");
             
             CreateTable(
                 "dbo.Contacto",
@@ -60,6 +62,7 @@ namespace EntityFrameworkDB.Migrations
             DropForeignKey("dbo.Contacto", "IdUsuario", "dbo.Usuario");
             DropIndex("dbo.Contacto", new[] { "IdAmigo" });
             DropIndex("dbo.Contacto", new[] { "IdUsuario" });
+            DropIndex("dbo.Usuario", "Index");
             DropIndex("dbo.Mensaje", new[] { "IdDestino" });
             DropIndex("dbo.Mensaje", new[] { "IdOrigen" });
             DropTable("dbo.Contacto");

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using ContactosModel.Model;
 
@@ -32,11 +33,16 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<Usuario>().HasKey(uw => uw.Id);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Login).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Password).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Nombre).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).HasMaxLength(50);
+            modelBuilder.Entity<Usuario>().Property(t => t.Login).HasMaxLength(255)
+                .HasColumnAnnotation("Index", 
+                new IndexAnnotation(new[]
+                {
+                    new IndexAttribute("Index") { IsUnique = true }
+                }));
 
             modelBuilder.Entity<Mensaje>().ToTable("Mensaje");
             modelBuilder.Entity<Mensaje>().HasKey(ur => ur.Id);

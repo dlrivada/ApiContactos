@@ -19,84 +19,19 @@ namespace EntityFrameworkDB.Repositorios
         // para tener nosotros siempre el control de la memoria consumida y del estado de la conexión
         // para eso hay que usar IoC 
         // Para acceder al almacen de instacias usar el DbSet<> del Context
-
         public MensajeRepositorio(DbContext context)
         {
             _context = context;
         }
 
-        public virtual Mensaje Add(Mensaje model)
-        {
-            Mensaje guardado = model;
-            _context.Set<Mensaje>().Add(guardado);
-            try
-            {
-                _context.SaveChanges();
-                return guardado;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
+        public virtual void Add(Mensaje model) => _context.Set<Mensaje>().Add(model);
 
-        public virtual int Delete(params object[] keys)
-        {
-            Mensaje data = _context.Set<Mensaje>().Find(keys);
-            _context.Set<Mensaje>().Remove(data);
-            try
-            {
-                return _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
+        public virtual void Delete(Mensaje model) => _context.Entry(model).State = EntityState.Deleted;
 
-        public virtual int Delete(Mensaje model)
-        {
-            _context.Entry(model).State = EntityState.Deleted;
-            try
-            {
-                return _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
+        public virtual void Update(Mensaje model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual int Delete(Expression<Func<Mensaje, bool>> expression)
-        {
-            IQueryable<Mensaje> guardar = _context.Set<Mensaje>().Where(expression);
-            _context.Set<Mensaje>().RemoveRange(guardar);
-            try
-            {
-                return _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
-
-        public virtual int Update(Mensaje model)
-        {
-            _context.Entry(model).State = EntityState.Modified;
-            try
-            {
-                return _context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
-        }
-
-        public virtual Mensaje Get(params object[] keys) => _context.Set<Mensaje>().Find(keys);
         public virtual ICollection<Mensaje> Get(Expression<Func<Mensaje, bool>> expression) => _context.Set<Mensaje>().Where(expression).ToList();
-        public virtual ICollection<Mensaje> Get() => _context.Set<Mensaje>().ToList();
+
         public void Dispose()
         {
             _context.Dispose();
