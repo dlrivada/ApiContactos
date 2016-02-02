@@ -162,7 +162,7 @@
       <Project>{9763d781-4c95-4bd3-90b7-df1486216d75}</Project>
       <Name>EntityFrameworkDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RepositorioAdapter\Repositorio.csproj">
+    <ProjectReference Include="..\RepositorioAdapter\RepositorioAdapter.csproj">
       <Project>{6a1c665e-953b-43a3-a8db-5521d49cb8f2}</Project>
       <Name>Repositorio</Name>
     </ProjectReference>

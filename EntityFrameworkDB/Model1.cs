@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using ContactosModel.Model;
 
 namespace EntityFrameworkDB
 {
     using System.Data.Entity;
 
-    public class ContactosContext : DbContext
+    public class Model1 : DbContext
     {
         // Your context has been configured to use a 'Model1' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -14,7 +13,7 @@ namespace EntityFrameworkDB
         // 
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
-        public ContactosContext() : base("name=Model1")
+        public Model1() : base("name=Model1")
         {
         }
 
@@ -26,14 +25,7 @@ namespace EntityFrameworkDB
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            #region Context Settins
-
-            Configuration.LazyLoadingEnabled = false;
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
-            #endregion
-
-            #region Usuario Fields
+            Configuration.LazyLoadingEnabled = true;
 
             modelBuilder.Entity<Usuario>().ToTable("Usuario");
             modelBuilder.Entity<Usuario>().HasKey(uw => uw.Id);
@@ -44,29 +36,21 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).IsRequired().HasMaxLength(50);
 
-            #endregion
-
-            #region Mensaje Fields
-
             modelBuilder.Entity<Mensaje>().ToTable("Mensaje");
             modelBuilder.Entity<Mensaje>().HasKey(ur => ur.Id);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Asunto).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Mensaje>().Property(ur => ur.Contenido).IsRequired().HasMaxLength(500);
 
-            #endregion
-
-            #region Relations
-
             modelBuilder.Entity<Usuario>()
-                .HasMany(entity => entity.Contactos)
-                .WithMany(child => child.ContactoDe)
-                .Map(map =>
-                {
-                    map.ToTable("Contacto");
-                    map.MapLeftKey("IdUsuario");
-                    map.MapRightKey("IdAmigo");
-                });
+            .HasMany(entity => entity.Contactos)
+            .WithMany(child => child.ContatoDe)
+            .Map(map =>
+            {
+                map.ToTable("Contacto");
+                map.MapLeftKey("IdUsuario");
+                map.MapRightKey("IdAmigo");
+            });
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesEnviados)
@@ -74,9 +58,7 @@ namespace EntityFrameworkDB
 
             modelBuilder.Entity<Usuario>()
                 .HasMany(t => t.MensajesRecibidos)
-                .WithRequired(t => t.Destino);
-
-            #endregion
+                .WithMany(t => t.Destino);
         }
     }
 }
