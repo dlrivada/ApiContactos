@@ -24,20 +24,20 @@ namespace ContactosModel.Model
 
         public ICollection<Mensaje> MensajesEnviados { get; set; }
         public ICollection<Mensaje> MensajesRecibidos { get; set; }
-        private ICollection<Usuario> Contactos { get; set; }
-        private ICollection<Usuario> ContactoDe { get; set; }
+        public ICollection<Usuario> Contactos { get; set; }
+        public ICollection<Usuario> ContactoDe { get; set; }
 
-        public void AddContacto(Usuario contacto)
-        {
-            Contactos.Add(contacto);
-            contacto.ContactoDe.Add(this);
-        }
-        public void RemoveContacto(Usuario contacto)
-        {
-            Contactos.Remove(contacto);
-            contacto.ContactoDe.Remove(this);
-        }
-        public ICollection<Usuario> GetContactos() => Contactos;
-        public ICollection<Usuario> GetContactoDe() => ContactoDe;
+        //public void AddContacto(Usuario contacto)
+        //{
+        //    Contactos.Add(contacto);
+        //    contacto.ContactoDe.Add(this);
+        //}
+        //public void RemoveContacto(Usuario contacto)
+        //{
+        //    Contactos.Remove(contacto);
+        //    contacto.ContactoDe.Remove(this);
+        //}
+        //public ICollection<Usuario> GetContactos() => Contactos;
+        //public ICollection<Usuario> GetContactoDe() => ContactoDe;
     }
 }
