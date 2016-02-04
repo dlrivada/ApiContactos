@@ -1,6 +1,6 @@
 ﻿namespace ContactosModel.Model
 {
-    public class Mensaje : DomainModel
+    public class Mensaje : Identity
     {
         public string Asunto { get; set; }
         public string Contenido { get; set; }

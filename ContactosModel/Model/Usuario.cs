@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ContactosModel.Model
 {
-    public class Usuario : DomainModel
+    public class Usuario : Identity
     {
+        private ICollection<Usuario> _contactos;
+
         public Usuario()
         {
             if (MensajesEnviados == null)
@@ -24,20 +27,26 @@ namespace ContactosModel.Model
 
         public ICollection<Mensaje> MensajesEnviados { get; set; }
         public ICollection<Mensaje> MensajesRecibidos { get; set; }
-        public ICollection<Usuario> Contactos { get; set; }
-        public ICollection<Usuario> ContactoDe { get; set; }
 
-        //public void AddContacto(Usuario contacto)
-        //{
-        //    Contactos.Add(contacto);
-        //    contacto.ContactoDe.Add(this);
-        //}
-        //public void RemoveContacto(Usuario contacto)
-        //{
-        //    Contactos.Remove(contacto);
-        //    contacto.ContactoDe.Remove(this);
-        //}
-        //public ICollection<Usuario> GetContactos() => Contactos;
-        //public ICollection<Usuario> GetContactoDe() => ContactoDe;
+        public IReadOnlyCollection<Usuario> Contactos
+        {
+            get { return _contactos.ToList(); }
+            set { _contactos = value as ICollection<Usuario>; }
+        }
+
+        public IReadOnlyCollection<Usuario> ContactoDe { get; set; }
+
+        public void AddContacto(Usuario contacto)
+        {
+            Contactos.Add(contacto);
+            contacto.ContactoDe.Add(this);
+        }
+        public void RemoveContacto(Usuario contacto)
+        {
+            Contactos.Remove(contacto);
+            contacto.ContactoDe.Remove(this);
+        }
+        public ICollection<Usuario> GetContactos() => Contactos;
+        public ICollection<Usuario> GetContactoDe() => ContactoDe;
     }
 }
