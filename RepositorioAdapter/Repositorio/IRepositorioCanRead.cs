@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ContactosModel.Model;
 
 namespace RepositorioAdapter.Repositorio
 {

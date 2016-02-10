@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using ContactosModel.Model;
 using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios

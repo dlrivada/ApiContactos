@@ -1,6 +1,5 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Description;
-using ContactosModel.Model;
 using EntityFrameworkDB.Repositorios;
 using Microsoft.Practices.Unity;
 

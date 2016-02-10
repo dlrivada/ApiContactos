@@ -77,9 +77,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContactosModel\ContactosModel.csproj">
-      <Project>{3c816fed-4133-4fbb-b215-dd516c329f25}</Project>
-      <Name>ContactosModel</Name>
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
+      <Project>{bb2cc008-21d9-4e25-bd2f-8b93b273c19b}</Project>
+      <Name>DomainModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\RepositorioAdapter\Repositorio.csproj">
       <Project>{6a1c665e-953b-43a3-a8db-5521d49cb8f2}</Project>

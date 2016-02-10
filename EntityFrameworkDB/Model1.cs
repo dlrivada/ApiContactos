@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using ContactosModel.Model;
+using DomainModels.Model;
 
 namespace EntityFrameworkDB
 {
@@ -22,7 +22,7 @@ namespace EntityFrameworkDB
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
-        public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Contacto> Usuario { get; set; }
         public virtual DbSet<Mensaje> Mensaje { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -30,14 +30,14 @@ namespace EntityFrameworkDB
             Configuration.LazyLoadingEnabled = false;
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            modelBuilder.Entity<Usuario>().ToTable("Usuario");
-            modelBuilder.Entity<Usuario>().HasKey(uw => uw.Id);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Password).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Nombre).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Apellidos).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(uw => uw.Foto).HasMaxLength(50);
-            modelBuilder.Entity<Usuario>().Property(t => t.Login).HasMaxLength(255)
+            modelBuilder.Entity<Contacto>().ToTable("Usuario");
+            modelBuilder.Entity<Contacto>().HasKey(c => c.Id);
+            modelBuilder.Entity<Contacto>().Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Contacto>().Property(c => c.Password).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Contacto>().Property(c => c.Nombre).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Contacto>().Property(c => c.Apellidos).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Contacto>().Property(c => c.Foto).HasMaxLength(50);
+            modelBuilder.Entity<Contacto>().Property(c => c.Login).HasMaxLength(255)
                 .HasColumnAnnotation("Index", 
                 new IndexAnnotation(new[]
                 {
@@ -45,12 +45,12 @@ namespace EntityFrameworkDB
                 }));
 
             modelBuilder.Entity<Mensaje>().ToTable("Mensaje");
-            modelBuilder.Entity<Mensaje>().HasKey(ur => ur.Id);
-            modelBuilder.Entity<Mensaje>().Property(ur => ur.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Mensaje>().Property(ur => ur.Asunto).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Mensaje>().Property(ur => ur.Contenido).IsRequired().HasMaxLength(500);
+            modelBuilder.Entity<Mensaje>().HasKey(m => m.Id);
+            modelBuilder.Entity<Mensaje>().Property(m => m.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            modelBuilder.Entity<Mensaje>().Property(m => m.Asunto).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Mensaje>().Property(m => m.Contenido).IsRequired().HasMaxLength(500);
 
-            modelBuilder.Entity<Usuario>()
+            modelBuilder.Entity<Contacto>()
             .HasMany(entity => entity.Contactos)
             .WithMany(child => child.ContactoDe)
             .Map(map =>
@@ -60,13 +60,13 @@ namespace EntityFrameworkDB
                 map.MapRightKey("IdAmigo");
             });
 
-            modelBuilder.Entity<Usuario>()
-                .HasMany(t => t.MensajesEnviados)
-                .WithOptional(t => t.Origen).Map(map => map.MapKey("IdOrigen"));
+            modelBuilder.Entity<Contacto>()
+                .HasMany(c => c.MensajesEnviados)
+                .WithOptional(m => m.Origen).Map(map => map.MapKey("IdOrigen"));
 
-            modelBuilder.Entity<Usuario>()
-                .HasMany(t => t.MensajesRecibidos)
-                .WithOptional(t => t.Destino).Map(map => map.MapKey("IdDestino"));
+            modelBuilder.Entity<Contacto>()
+                .HasMany(c => c.MensajesRecibidos)
+                .WithOptional(m => m.Destino).Map(map => map.MapKey("IdDestino"));
         }
     }
 }

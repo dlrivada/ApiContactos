@@ -1,6 +1,4 @@
-﻿using ContactosModel.Model;
-
-namespace RepositorioAdapter.Repositorio
+﻿namespace RepositorioAdapter.Repositorio
 {
     public interface IUsuarioRepositorio : IRepositorioCanRead<Usuario>, IRepositorioCanAdd<Usuario>, IRepositorioCanDelete<Usuario>, IRepositorioCanUpdate<Usuario>, IRepositorio
     {

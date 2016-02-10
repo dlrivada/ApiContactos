@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace ContactosModel.Model
+namespace DomainModels.Base
 {
-    public class DomainModel
-    {
-    }
-
-    public abstract class Identity : DomainModel
-    {
-        public int Id { get; set; }
-    }
-
     public abstract class ValueObject<T> : IEquatable<T>
         where T : ValueObject<T>
     {
@@ -31,20 +22,10 @@ namespace ContactosModel.Model
         {
             IEnumerable<FieldInfo> fields = GetFields();
 
-            int startValue = 17;
-            int multiplier = 59;
+            const int startValue = 17;
+            const int multiplier = 59;
 
-            int hashCode = startValue;
-
-            foreach (FieldInfo field in fields)
-            {
-                object value = field.GetValue(this);
-
-                if (value != null)
-                    hashCode = hashCode * multiplier + value.GetHashCode();
-            }
-
-            return hashCode;
+            return fields.Select(field => field.GetValue(this)).Where(value => value != null).Aggregate(startValue, (current, value) => current * multiplier + value.GetHashCode());
         }
 
         public virtual bool Equals(T other)
@@ -85,6 +66,7 @@ namespace ContactosModel.Model
 
             while (t != typeof(object))
             {
+                if (t == null) continue;
                 fields.AddRange(t.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
 
                 t = t.BaseType;
@@ -93,14 +75,8 @@ namespace ContactosModel.Model
             return fields;
         }
 
-        public static bool operator ==(ValueObject<T> x, ValueObject<T> y)
-        {
-            return x.Equals(y);
-        }
+        public static bool operator ==(ValueObject<T> x, ValueObject<T> y) => x != null && x.Equals(y);
 
-        public static bool operator !=(ValueObject<T> x, ValueObject<T> y)
-        {
-            return !(x == y);
-        }
+        public static bool operator !=(ValueObject<T> x, ValueObject<T> y) => !(x == y);
     }
 }

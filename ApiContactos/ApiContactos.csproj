@@ -153,9 +153,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContactosModel\ContactosModel.csproj">
-      <Project>{3c816fed-4133-4fbb-b215-dd516c329f25}</Project>
-      <Name>ContactosModel</Name>
+    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
+      <Project>{bb2cc008-21d9-4e25-bd2f-8b93b273c19b}</Project>
+      <Name>DomainModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\EntityFrameworkDB\EntityFrameworkDB.csproj">
       <Project>{9763d781-4c95-4bd3-90b7-df1486216d75}</Project>
