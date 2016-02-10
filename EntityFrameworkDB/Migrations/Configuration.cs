@@ -25,6 +25,8 @@ namespace EntityFrameworkDB.Migrations
                 new Contacto ("user6", "user6", "Usuario 6", "Apellidos 6")
             };
 
+            context.SaveChanges();
+
             usuarios.Single(c => c.Login == "user1")
                 .Contactos.Add(usuarios.Single(u => u.Login == "user2"));
             usuarios.Single(c => c.Login == "user1")

@@ -19,9 +19,10 @@ namespace DomainModels.Model
             Fecha = DateTime.Now;
         }
 
-        protected Mensaje()
+        protected Mensaje() : base()
         {
-
+            Leido = false;
+            Fecha = DateTime.Now;
         }
 
         public string Asunto { get; private set; }

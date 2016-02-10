@@ -14,11 +14,11 @@ namespace DomainModels.Model
         public ICollection<Mensaje> MensajesRecibidos { get; private set; }
 
 
-        public Contacto(string login, string password) : this(login, password, string.Empty, string.Empty, string.Empty)
+        public Contacto(string login, string password) : this(login, password, string.Empty)
         {
         }
 
-        public Contacto(string login, string password, string nombre) : this(login, password, nombre, string.Empty, string.Empty)
+        public Contacto(string login, string password, string nombre) : this(login, password, nombre, string.Empty)
         {
         }
 
@@ -31,16 +31,31 @@ namespace DomainModels.Model
             Nombre = nombre;
             Apellidos = apellidos;
             Foto = foto;
+
+            if (MensajesEnviados == null)
+                MensajesEnviados = new List<Mensaje>();
+
+            if (MensajesRecibidos == null)
+                MensajesRecibidos = new List<Mensaje>();
+
+            if (Contactos == null)
+                Contactos = new List<Contacto>();
+
+            if (ContactoDe == null)
+                ContactoDe = new List<Contacto>();
         }
 
-        protected Contacto()
+        protected Contacto() : base()
         {
             if (MensajesEnviados == null)
                 MensajesEnviados = new List<Mensaje>();
+
             if (MensajesRecibidos == null)
                 MensajesRecibidos = new List<Mensaje>();
+
             if (Contactos == null)
                 Contactos = new List<Contacto>();
+
             if (ContactoDe == null)
                 ContactoDe = new List<Contacto>();
         }

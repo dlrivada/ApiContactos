@@ -5,8 +5,7 @@ using System.Reflection;
 
 namespace DomainModels.Base
 {
-    public abstract class ValueObject<T> : IEquatable<T>
-        where T : ValueObject<T>
+    public abstract class ValueObject<T> : IEquatable<T> where T : ValueObject<T>
     {
         public override bool Equals(object obj)
         {

@@ -10,7 +10,7 @@ namespace DomainModels.Model
             Password = password;
         }
 
-        protected Usuario()
+        protected Usuario() : base()
         {
         }
 

@@ -1,8 +1,5 @@
-using System.Data.Entity;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
-using EntityFrameworkDB;
-using EntityFrameworkDB.Repositorios;
 using Unity.WebApi;
 
 namespace ApiContactos
@@ -11,12 +8,13 @@ namespace ApiContactos
     {
         public static void RegisterComponents()
         {
-            UnityContainer container = new UnityContainer();
-
-            container.RegisterType<DbContext, Model1>();
-            container.RegisterType<UsuarioRepositorio>();
-            container.RegisterType<MensajeRepositorio>();
-
+			var container = new UnityContainer();
+            
+            // register all your components with the container here
+            // it is NOT necessary to register your controllers
+            
+            // e.g. container.RegisterType<ITestService, TestService>();
+            
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
