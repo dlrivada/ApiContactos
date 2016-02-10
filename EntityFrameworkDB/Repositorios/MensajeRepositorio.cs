@@ -10,6 +10,7 @@ namespace EntityFrameworkDB.Repositorios
 {
     public class MensajeRepositorio : IMensajeRepositorio
     {
+        private bool disposed = false;
         private readonly DbContext _context;
         public DbContext Context => _context;
 
@@ -43,8 +44,23 @@ namespace EntityFrameworkDB.Repositorios
 
         public void Dispose()
         {
-            Save();
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                Save();
+                _context.Dispose();
+            }
+
+            disposed = true;
+        }
+
     }
 }

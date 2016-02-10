@@ -6,7 +6,6 @@ using DomainModels.Model;
 namespace EntityFrameworkDB
 {
     using System.Data.Entity;
-
     public class Model1 : DbContext
     {
         // Your context has been configured to use a 'Model1' connection string from your application's 
@@ -37,10 +36,10 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Contacto>().Property(c => c.Nombre).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Contacto>().Property(c => c.Apellidos).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Contacto>().Property(c => c.Foto).HasMaxLength(50);
-            
+
             // IsÚnico implementation
             modelBuilder.Entity<Contacto>().Property(c => c.Login).HasMaxLength(255)
-                .HasColumnAnnotation("Index", 
+                .HasColumnAnnotation("Index",
                 new IndexAnnotation(new[]
                 {
                     new IndexAttribute("Index") { IsUnique = true }
@@ -70,5 +69,9 @@ namespace EntityFrameworkDB
                 .HasMany(c => c.MensajesRecibidos)
                 .WithOptional(m => m.Destino).Map(map => map.MapKey("IdDestino"));
         }
+
+
     }
+
+
 }
