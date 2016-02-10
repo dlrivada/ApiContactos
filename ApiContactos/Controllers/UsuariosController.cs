@@ -1,5 +1,8 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Linq;
+using System.Web.Http;
 using System.Web.Http.Description;
+using DomainModels.Model;
 using EntityFrameworkDB.Repositorios;
 using Microsoft.Practices.Unity;
 
@@ -25,41 +28,62 @@ namespace ApiContactos.Controllers
             return Ok(data);
         }
 
-        [HttpGet]
-        [ResponseType(typeof(bool))]
-        public IHttpActionResult GetUnico(string login) => Ok(UsuarioRepositorio.IsUnico(login));
-
         [HttpPost]
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult Post(Usuario model)
         {
-            Usuario data = UsuarioRepositorio.Add(model);
-            if (data == null)
+            try
+            {
+                UsuarioRepositorio.Add(model);
+            }
+            catch (Exception) // Podemos controlar excepción isunico
+            {
                 return BadRequest();
-            return Ok(data);
+            }
+            return Ok(model);
         }
 
         [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult Put(int id, Usuario model)
         {
-            Usuario d = UsuarioRepositorio.Get(id);
-            if (d == null || d.Id != model.Id)
+            Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
+            if (usuario == null || usuario.Id != model.Id)
                 return NotFound();
 
-            int data = UsuarioRepositorio.Update(model);
-            if (data < 1)
+            UsuarioRepositorio.Update(model);
+
+            try
+            {
+                UsuarioRepositorio.Save();
+            }
+            catch (Exception)
+            {
                 return BadRequest();
+            }
+
             return Ok();
         }
 
-        [HttpPut]
+        [HttpDelete]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(int id)
+        public IHttpActionResult Del(int id)
         {
-            int data = UsuarioRepositorio.Delete(id);
-            if (data < 1)
+            Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
+            if (usuario == null)
+                return NotFound();
+
+            UsuarioRepositorio.Delete(usuario);
+
+            try
+            {                
+                UsuarioRepositorio.Save();
+            }
+            catch (Exception)
+            {
                 return BadRequest();
+            }
+
             return Ok();
         }
     }

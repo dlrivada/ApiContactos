@@ -1,4 +1,6 @@
-﻿namespace RepositorioAdapter.Repositorio
+﻿using DomainModels.Base;
+
+namespace RepositorioAdapter.Repositorio
 {
     public interface IRepositorioCanDelete<TModel> where TModel : DomainModel
     {

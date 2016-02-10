@@ -1,3 +1,5 @@
+using DomainModels.Base;
+
 namespace RepositorioAdapter.Repositorio
 {
     public interface IRepositorioCanAdd<in TModel> where TModel : DomainModel

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DomainModels.Model;
 using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
@@ -17,6 +18,12 @@ namespace EntityFrameworkDB.Repositorios
         // Para acceder al almacen de instacias usar el DbSet<> del Context
         private readonly DbContext _context;
         public DbContext Context => _context;
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
         public UsuarioRepositorio(DbContext context)
         {
             _context = context;
@@ -30,10 +37,15 @@ namespace EntityFrameworkDB.Repositorios
 
         public Usuario Validar(string login, string password) => _context.Set<Usuario>().Single(o => o.Login == login && o.Password == password);
 
-        public void Add(Usuario model) => _context.Set<Usuario>().Add(model);
+        public void Add(Usuario model)
+        {
+            _context.Set<Usuario>().Add(model);
+            _context.Entry(model).State = EntityState.Added;
+        }
 
         public void Dispose()
         {
+            Save();
             _context.Dispose();
         }
     }

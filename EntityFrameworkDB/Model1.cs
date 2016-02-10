@@ -37,6 +37,8 @@ namespace EntityFrameworkDB
             modelBuilder.Entity<Contacto>().Property(c => c.Nombre).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Contacto>().Property(c => c.Apellidos).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Contacto>().Property(c => c.Foto).HasMaxLength(50);
+            
+            // IsÚnico implementation
             modelBuilder.Entity<Contacto>().Property(c => c.Login).HasMaxLength(255)
                 .HasColumnAnnotation("Index", 
                 new IndexAnnotation(new[]

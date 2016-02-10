@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using DomainModels.Model;
 using RepositorioAdapter.Repositorio;
 
 namespace EntityFrameworkDB.Repositorios
@@ -11,6 +12,11 @@ namespace EntityFrameworkDB.Repositorios
     {
         private readonly DbContext _context;
         public DbContext Context => _context;
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
 
         // Contexto de conexión y almacén de instacias del modelo
         // Ojo! Cuidado con replicar (o multiplicar) toda la Base de Datos en la Memoria.
@@ -23,7 +29,11 @@ namespace EntityFrameworkDB.Repositorios
             _context = context;
         }
 
-        public virtual void Add(Mensaje model) => _context.Set<Mensaje>().Add(model);
+        public virtual void Add(Mensaje model)
+        {
+            _context.Set<Mensaje>().Add(model);
+            _context.Entry(model).State = EntityState.Added;
+        }
 
         public virtual void Delete(Mensaje model) => _context.Entry(model).State = EntityState.Deleted;
 
@@ -33,6 +43,7 @@ namespace EntityFrameworkDB.Repositorios
 
         public void Dispose()
         {
+            Save();
             _context.Dispose();
         }
     }
