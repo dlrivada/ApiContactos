@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
+    [Authorize]
     public class UsuariosController : ApiController
     {
         [Dependency]
@@ -18,6 +19,8 @@ namespace ApiContactos.Controllers
             UsuarioRepositorio = usuarioRepositorio;
         }
 
+        [AllowAnonymous]
+        [Route("Register")]
         [HttpGet]
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetValido(string login, string password)
@@ -28,9 +31,10 @@ namespace ApiContactos.Controllers
             return Ok(data);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ResponseType(typeof(Usuario))]
-        public IHttpActionResult Post(Usuario model)
+        public IHttpActionResult Register(Usuario model)
         {
             try
             {
