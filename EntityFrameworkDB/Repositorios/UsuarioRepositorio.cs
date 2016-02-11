@@ -22,22 +22,23 @@ namespace EntityFrameworkDB.Repositorios
 
         public virtual void Update(Usuario auth, Usuario model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual ICollection<Usuario> Get(Usuario auth, Expression<Func<Usuario, bool>> expression)
+        public virtual Usuario Get(Usuario auth, Expression<Func<Usuario, bool>> expression)
         {
             // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos
             if (auth == null || expression == null)
                 return null; // TODO: Lanzar un error personalizado
 
-            return _context.Set<Usuario>().Where(expression).ToList();
+            return _context.Set<Contacto>().Where(expression).First();
         }
 
-        public Usuario Validar(string login, string password) => _context.Set<Usuario>().Single(o => o.Login == login && o.Password == password);
+        public Usuario Validar(string login, string password) => _context.Set<Contacto>().Single(o => o.Login == login && o.Password == password);
 
         public void Add(Usuario model)
         {
-            _context.Set<Usuario>().Add(model);
-            _context.Entry(model).State = EntityState.Added;
+            Contacto contacto = _context.Set<Contacto>().Find(model.Id);
+            _context.Set<Contacto>().Add(contacto);
+            _context.Entry(contacto).State = EntityState.Added;
         }
 
         public void Save()

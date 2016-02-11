@@ -2,7 +2,7 @@
 
 namespace Repositorio.RepositorioBase
 {
-    public interface IRepositorioCanUpdate<TAuth, TModel> where TModel : DomainModel
+    public interface IRepositorioCanUpdate<in TAuth, in TModel> where TModel : DomainModel
     {
         void Update(TAuth authentication, TModel model);
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -12,69 +13,57 @@ namespace ApiContactos.Controllers
     {
         [Dependency]
         private MensajeRepositorio MensajeRepositorio { get; }
+        [Dependency]
+        private UsuarioRepositorio UsuarioRepositorio { get; }
 
-        public MensajesController(MensajeRepositorio mensajeRepositorio)
+        public MensajesController(MensajeRepositorio mensajeRepositorio, UsuarioRepositorio usuarioRepositorio)
         {
             MensajeRepositorio = mensajeRepositorio;
+            UsuarioRepositorio = usuarioRepositorio;
         }
 
         [HttpPost]
         [ResponseType(typeof(Mensaje))]
-        public IHttpActionResult Post(Usuario usuario, Mensaje model)
+        public IHttpActionResult Post(Usuario auth, Mensaje model)
         {
+            if (auth == null)
+                return Unauthorized();
+            if (model == null)
+                return NotFound();
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            Usuario usuario = UsuarioRepositorio.Get(auth, u => u.Id == model.Id);
+            if (usuario == null)
+                return NotFound();
+            // El origen y el usuario logueado son el mismo
+            if (auth.Id != usuario.Id)
+                return Unauthorized();
+
             try
             {
-                MensajeRepositorio.Add(model);
+                MensajeRepositorio.Add(auth, model);
             }
-            catch (Exception) // Podemos controlar excepción isunico
+            catch (Exception)
             {
                 return BadRequest();
             }
             return Ok(model);
         }
 
-        [HttpPut]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Put(int id, Mensaje model)
+        [HttpGet]
+        [ResponseType(typeof(ICollection<Mensaje>))]
+        public IHttpActionResult GetListaMensajes(Usuario auth)
         {
-            Mensaje mensaje = MensajeRepositorio.Get(u => u.Id == id).First();
-            if (mensaje == null || mensaje.Id != model.Id)
-                return NotFound();
+            if (auth == null)
+                return Unauthorized();
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            Usuario usuario = UsuarioRepositorio.Get(auth, u => u.Id == auth.Id);
+            if (usuario == null)
+                return Unauthorized();
 
-            MensajeRepositorio.Update(model);
-
-            try
-            {
-                MensajeRepositorio.Save();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
-        }
-
-        [HttpDelete]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Del(int id)
-        {
-            Mensaje mensaje = MensajeRepositorio.Get(u => u.Id == id).First();
-            if (mensaje == null)
-                return NotFound();
-
-            MensajeRepositorio.Delete(mensaje);
-
-            try
-            {
-                MensajeRepositorio.Save();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
+            List<Mensaje> data = new List<Mensaje>();
+            data.AddRange(MensajeRepositorio.Get(auth, u => u.Origen.Id == usuario.Id));
+            
+            return Ok(data);
         }
     }
 }

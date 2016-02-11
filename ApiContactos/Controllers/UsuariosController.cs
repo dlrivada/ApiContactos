@@ -45,13 +45,22 @@ namespace ApiContactos.Controllers
 
         [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(int id, Usuario model)
+        public IHttpActionResult Put(Usuario auth, Usuario model)
         {
-            Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
-            if (usuario == null || usuario.Id != model.Id)
+            if (auth == null)
+                return Unauthorized();
+            if (model == null)
+                return NotFound();
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            // El origen y el usuario logueado son el mismo
+            if (auth.Id != model.Id || auth.Login != model.Login)
+                return Unauthorized(); 
+
+            Usuario usuario = UsuarioRepositorio.Get(auth, u => u.Id == model.Id);
+            if (usuario == null)
                 return NotFound();
             
-            UsuarioRepositorio.Update(usuario);
+            UsuarioRepositorio.Update(auth, usuario);
 
             try
             {
@@ -64,27 +73,5 @@ namespace ApiContactos.Controllers
 
             return Ok();
         }
-
-        //[HttpDelete]
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult Del(int id)
-        //{
-        //    Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
-        //    if (usuario == null)
-        //        return NotFound();
-
-        //    UsuarioRepositorio.Delete(usuario);
-
-        //    try
-        //    {                
-        //        UsuarioRepositorio.Save();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    return Ok();
-        //}
     }
 }
