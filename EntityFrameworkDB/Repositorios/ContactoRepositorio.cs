@@ -1,37 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using DomainModels.Model;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
 using Repositorio.RepositorioModels;
 
 namespace EntityFrameworkDB.Repositorios
 {
-    public class UsuarioRepositorio : IUsuarioRepositorio
+    public class ContactoRepositorio : IContactoRepositorio
     {
         private bool _disposed;
         private readonly DbContext _context;
         public DbContext Context => _context;
 
-        public UsuarioRepositorio(DbContext context)
+        public ContactoRepositorio(DbContext context)
         {
             _context = context;
         }
 
-        public virtual void Delete(Usuario model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Delete(Contacto model) => _context.Entry(model).State = EntityState.Deleted;
 
-        public virtual void Update(Usuario model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual void Update(Contacto model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual ICollection<Usuario> Get(Expression<Func<Usuario, bool>> expression) => _context.Set<Usuario>().Where(expression).ToList();
+        public virtual ICollection<Contacto> Get(Expression<Func<Contacto, bool>> expression) => _context.Set<Contacto>().Where(expression).ToList();
 
-        public Usuario Validar(string login, string password) => _context.Set<Usuario>().Single(o => o.Login == login && o.Password == password);
-
-        public void Add(Usuario model)
+        public void Add(Contacto model)
         {
-            _context.Set<Usuario>().Add(model);
+            _context.Set<Contacto>().Add(model);
             _context.Entry(model).State = EntityState.Added;
         }
 

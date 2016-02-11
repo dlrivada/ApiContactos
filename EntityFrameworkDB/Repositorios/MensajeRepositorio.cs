@@ -4,13 +4,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using DomainModels.Model;
-using RepositorioAdapter.Repositorio;
+using Repositorio.RepositorioModels;
 
 namespace EntityFrameworkDB.Repositorios
 {
     public class MensajeRepositorio : IMensajeRepositorio
     {
-        private bool disposed = false;
+        private bool _disposed;
         private readonly DbContext _context;
         public DbContext Context => _context;
 
@@ -50,7 +50,7 @@ namespace EntityFrameworkDB.Repositorios
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             if (disposing)
@@ -59,7 +59,7 @@ namespace EntityFrameworkDB.Repositorios
                 _context.Dispose();
             }
 
-            disposed = true;
+            _disposed = true;
         }
 
     }
