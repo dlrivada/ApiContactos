@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Security.Cryptography.X509Certificates;
 
-namespace RepositorioAdapter.Repositorio
+namespace Repositorio.RepositorioBase
 {
     public interface IRepositorio : IDisposable
     {

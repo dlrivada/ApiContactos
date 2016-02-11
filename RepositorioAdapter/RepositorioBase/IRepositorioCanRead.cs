@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using DomainModels.Base;
 
-namespace RepositorioAdapter.Repositorio
+namespace Repositorio.RepositorioBase
 {
     public interface IRepositorioCanRead<TModel> where TModel : DomainModel
     {

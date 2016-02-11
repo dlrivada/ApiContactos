@@ -1,6 +1,7 @@
 ﻿using DomainModels.Model;
+using Repositorio.RepositorioBase;
 
-namespace RepositorioAdapter.Repositorio
+namespace Repositorio.RepositorioModels
 {
     public interface IUsuarioRepositorio : IRepositorioCanRead<Usuario>, IRepositorioCanAdd<Usuario>, IRepositorioCanDelete<Usuario>, IRepositorioCanUpdate<Usuario>, IRepositorio
     {

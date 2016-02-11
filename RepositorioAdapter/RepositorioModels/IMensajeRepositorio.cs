@@ -1,6 +1,7 @@
 ﻿using DomainModels.Model;
+using Repositorio.RepositorioBase;
 
-namespace RepositorioAdapter.Repositorio
+namespace Repositorio.RepositorioModels
 {
     public interface IMensajeRepositorio : IRepositorioCanRead<Mensaje>, IRepositorioCanAdd<Mensaje>, IRepositorioCanDelete<Mensaje>, IRepositorioCanUpdate<Mensaje>, IRepositorio
     {

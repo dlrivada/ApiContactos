@@ -7,8 +7,8 @@
     <ProjectGuid>{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RepositorioAdapter</RootNamespace>
-    <AssemblyName>RepositorioAdapter</AssemblyName>
+    <RootNamespace>Repositorio</RootNamespace>
+    <AssemblyName>Repositorio</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -60,13 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorio\IMensajeRepositorio.cs" />
-    <Compile Include="Repositorio\IRepositorio.cs" />
-    <Compile Include="Repositorio\IRepositorioCanRead.cs" />
-    <Compile Include="Repositorio\IRepositorioCanAdd.cs" />
-    <Compile Include="Repositorio\IRepositorioCanDelete.cs" />
-    <Compile Include="Repositorio\IRepositorioCanUpdate.cs" />
-    <Compile Include="Repositorio\IUsuarioRepositorio.cs" />
+    <Compile Include="RepositorioModels\IContactoRepositorio.cs" />
+    <Compile Include="RepositorioModels\IMensajeRepositorio.cs" />
+    <Compile Include="RepositorioBase\IRepositorio.cs" />
+    <Compile Include="RepositorioBase\IRepositorioCanRead.cs" />
+    <Compile Include="RepositorioBase\IRepositorioCanAdd.cs" />
+    <Compile Include="RepositorioBase\IRepositorioCanDelete.cs" />
+    <Compile Include="RepositorioBase\IRepositorioCanUpdate.cs" />
+    <Compile Include="RepositorioModels\IUsuarioRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
