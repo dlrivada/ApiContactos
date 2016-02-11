@@ -2,8 +2,8 @@
 
 namespace Repositorio.RepositorioBase
 {
-    public interface IRepositorioCanDelete<TModel> where TModel : DomainModel
+    public interface IRepositorioCanDelete<TAuth, TModel> where TModel : DomainModel
     {
-        void Delete(TModel model);
+        void Delete(TAuth authentication, TModel model);
     }
 }

@@ -14,20 +14,27 @@ namespace EntityFrameworkDB.Repositorios
     {
         private bool _disposed;
         private readonly DbContext _context;
-        public DbContext Context => _context;
 
         public ContactoRepositorio(DbContext context)
         {
             _context = context;
         }
 
-        public virtual void Delete(Contacto model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Delete(Usuario auth, Contacto model) => _context.Entry(model).State = EntityState.Deleted;
 
-        public virtual void Update(Contacto model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual void Update(Usuario auth, Contacto model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual ICollection<Contacto> Get(Expression<Func<Contacto, bool>> expression) => _context.Set<Contacto>().Where(expression).ToList();
+        public virtual ICollection<Contacto> Get(Usuario auth, Expression<Func<Contacto, bool>> expression)
+        {
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            // Los campos usuario, origen, model y model.destino no pueden ser nulos
+            if (auth == null || expression == null)
+                return null; // TODO: Lanzar un error personalizado
 
-        public void Add(Contacto model)
+            return _context.Set<Contacto>().Where(expression).ToList();
+        }
+
+        public void Add(Usuario auth, Contacto model)
         {
             _context.Set<Contacto>().Add(model);
             _context.Entry(model).State = EntityState.Added;

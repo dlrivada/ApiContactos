@@ -14,18 +14,23 @@ namespace EntityFrameworkDB.Repositorios
     {
         private bool _disposed;
         private readonly DbContext _context;
-        public DbContext Context => _context;
 
         public UsuarioRepositorio(DbContext context)
         {
             _context = context;
         }
 
-        public virtual void Delete(Usuario model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Update(Usuario auth, Usuario model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual void Update(Usuario model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual ICollection<Usuario> Get(Usuario auth, Expression<Func<Usuario, bool>> expression)
+        {
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            // Los campos usuario, origen, model y model.destino no pueden ser nulos
+            if (auth == null || expression == null)
+                return null; // TODO: Lanzar un error personalizado
 
-        public virtual ICollection<Usuario> Get(Expression<Func<Usuario, bool>> expression) => _context.Set<Usuario>().Where(expression).ToList();
+            return _context.Set<Usuario>().Where(expression).ToList();
+        }
 
         public Usuario Validar(string login, string password) => _context.Set<Usuario>().Single(o => o.Login == login && o.Password == password);
 

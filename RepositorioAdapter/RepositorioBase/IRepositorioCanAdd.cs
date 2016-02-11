@@ -2,8 +2,8 @@ using DomainModels.Base;
 
 namespace Repositorio.RepositorioBase
 {
-    public interface IRepositorioCanAdd<in TModel> where TModel : DomainModel
+    public interface IRepositorioCanAdd<TAuth, TModel> where TModel : DomainModel 
     {
-        void Add(TModel model);
+        void Add(TAuth authentication, TModel model);
     }
 }

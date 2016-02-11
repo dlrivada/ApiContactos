@@ -50,8 +50,8 @@ namespace ApiContactos.Controllers
             Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
             if (usuario == null || usuario.Id != model.Id)
                 return NotFound();
-
-            UsuarioRepositorio.Update(model);
+            
+            UsuarioRepositorio.Update(usuario);
 
             try
             {
@@ -65,26 +65,26 @@ namespace ApiContactos.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Del(int id)
-        {
-            Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
-            if (usuario == null)
-                return NotFound();
+        //[HttpDelete]
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult Del(int id)
+        //{
+        //    Usuario usuario = UsuarioRepositorio.Get(u => u.Id == id).First();
+        //    if (usuario == null)
+        //        return NotFound();
 
-            UsuarioRepositorio.Delete(usuario);
+        //    UsuarioRepositorio.Delete(usuario);
 
-            try
-            {                
-                UsuarioRepositorio.Save();
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+        //    try
+        //    {                
+        //        UsuarioRepositorio.Save();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

@@ -12,7 +12,6 @@ namespace EntityFrameworkDB.Repositorios
     {
         private bool _disposed;
         private readonly DbContext _context;
-        public DbContext Context => _context;
 
         public void Save()
         {
@@ -30,17 +29,41 @@ namespace EntityFrameworkDB.Repositorios
             _context = context;
         }
 
-        public virtual void Add(Mensaje model)
+        public virtual void Add(Usuario auth, Mensaje model)
         {
+            Contacto origen = _context.Set<Contacto>().First(c => c.Id == auth.Id);
+
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            // Los campos usuario, origen, model y model.destino no pueden ser nulos
+            if (auth == null || origen == null || model?.Destino == null)
+                return; // TODO: Lanzar un error personalizado
+            // La entidad no debe existir ya
+            if (!_context.Set<Mensaje>().Any(m => m.Id == model.Id))
+                return; // TODO: Lanzar un error personalizado
+            // El origen y el usuario logueado son el mismo
+            if (auth.Login != origen.Login || auth.Password != origen.Password)
+                return; // TODO: Lanzar un error personalizado
+            // El destino existe
+            if (!_context.Set<Contacto>().Any(u => u.Login == model.Destino.Login))
+                return; // TODO: Lanzar un error personalizado
+            // Al menos tiene contenido
+            if (model.Contenido == string.Empty)
+                return; // TODO: Lanzar un error personalizado
+
+            origen.AddMensaje(model.Destino, model.Asunto, model.Contenido);
             _context.Set<Mensaje>().Add(model);
             _context.Entry(model).State = EntityState.Added;
         }
 
-        public virtual void Delete(Mensaje model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual ICollection<Mensaje> Get(Usuario auth, Expression<Func<Mensaje, bool>> expression)
+        {
+            // TODO: Comprobar que el usuario está autorizado y autenticado
+            // Los campos usuario, origen, model y model.destino no pueden ser nulos
+            if (auth == null || expression == null)
+                return null; // TODO: Lanzar un error personalizado
 
-        public virtual void Update(Mensaje model) => _context.Entry(model).State = EntityState.Modified;
-
-        public virtual ICollection<Mensaje> Get(Expression<Func<Mensaje, bool>> expression) => _context.Set<Mensaje>().Where(expression).ToList();
+            return _context.Set<Mensaje>().Where(expression).ToList();
+        }
 
         public void Dispose()
         {
