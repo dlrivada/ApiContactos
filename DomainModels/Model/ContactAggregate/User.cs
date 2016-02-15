@@ -12,7 +12,7 @@ namespace Domain.Model.ContactAggregate
             Password = password;
         }
 
-        protected User() : base()
+        protected User()
         {
             // Needed by Entity Framework
         }

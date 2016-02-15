@@ -21,8 +21,8 @@ namespace Infrastructure.EntityFramework
         // Add a DbSet for each entity type that you want to include in your model. For more information 
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
-        public virtual DbSet<Contact> Usuario { get; set; }
-        public virtual DbSet<Message> Mensaje { get; set; }
+        public virtual DbSet<Contact> User { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Contact>().Property(c => c.LastName).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Contact>().Property(c => c.Photo).HasMaxLength(50);
 
-            // IsÚnico implementation
+            // IsUnique implementation
             modelBuilder.Entity<Contact>().Property(c => c.Login).HasMaxLength(255)
                 .HasColumnAnnotation("Index",
                 new IndexAnnotation(new[]
@@ -69,8 +69,6 @@ namespace Infrastructure.EntityFramework
                 .HasMany(c => c.MessagesReceived)
                 .WithOptional(m => m.To).Map(map => map.MapKey("IdDestino"));
         }
-
-
     }
 
 

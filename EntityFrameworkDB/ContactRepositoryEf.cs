@@ -80,6 +80,5 @@ namespace Infrastructure.EntityFramework
 
             _disposed = true;
         }
-
     }
 }

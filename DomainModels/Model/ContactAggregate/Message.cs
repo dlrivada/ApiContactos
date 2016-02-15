@@ -22,7 +22,7 @@ namespace Domain.Model.ContactAggregate
             CreatedDate = DateTime.Now;
         }
 
-        protected Message() : base()
+        protected Message()
         {
             // Needed by Entity Framework
             Readed = false;

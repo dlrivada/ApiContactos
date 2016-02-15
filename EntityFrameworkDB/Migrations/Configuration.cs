@@ -63,9 +63,9 @@ namespace Infrastructure.EntityFramework.Migrations
 
             foreach (Contact usuario in usuarios)
             {
-                context.Usuario.AddOrUpdate(u => u.Login, usuario);
+                context.User.AddOrUpdate(u => u.Login, usuario);
                 foreach (Message mensajesEnviado in usuario.MessagesSended)
-                    context.Mensaje.AddOrUpdate(m => m.Id, mensajesEnviado);
+                    context.Message.AddOrUpdate(m => m.Id, mensajesEnviado);
             }
 
 

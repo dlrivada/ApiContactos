@@ -2,6 +2,6 @@ namespace Domain.Shared
 {
     public abstract class Identity : DomainModel
     {
-        public int Id { get; set; }
+        public int Id { get;  }
     }
 }
