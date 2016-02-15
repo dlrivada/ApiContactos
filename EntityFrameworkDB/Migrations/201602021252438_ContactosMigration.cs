@@ -1,7 +1,7 @@
-namespace EntityFrameworkDB.Migrations
+using System.Data.Entity.Migrations;
+
+namespace Infrastructure.EntityFramework.Migrations
 {
-    using System.Data.Entity.Migrations;
-    
     public partial class ContactosMigration : DbMigration
     {
         public override void Up()

@@ -5,11 +5,9 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiContactos", "ApiContactos\ApiContactos.csproj", "{0376878E-EE91-4778-A37A-AB853D64350F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorio", "RepositorioAdapter\Repositorio.csproj", "{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.EntityFramework", "EntityFrameworkDB\Infrastructure.EntityFramework.csproj", "{9763D781-4C95-4BD3-90B7-DF1486216D75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkDB", "EntityFrameworkDB\EntityFrameworkDB.csproj", "{9763D781-4C95-4BD3-90B7-DF1486216D75}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModels", "DomainModels\DomainModels.csproj", "{BB2CC008-21D9-4E25-BD2F-8B93B273C19B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "DomainModels\Domain.csproj", "{BB2CC008-21D9-4E25-BD2F-8B93B273C19B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{0376878E-EE91-4778-A37A-AB853D64350F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0376878E-EE91-4778-A37A-AB853D64350F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0376878E-EE91-4778-A37A-AB853D64350F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A1C665E-953B-43A3-A8DB-5521D49CB8F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9763D781-4C95-4BD3-90B7-DF1486216D75}.Release|Any CPU.ActiveCfg = Release|Any CPU

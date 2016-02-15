@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using DomainModels.Base;
+using DomainModels.Shared;
 
 namespace Repositorio.RepositorioBase
 {

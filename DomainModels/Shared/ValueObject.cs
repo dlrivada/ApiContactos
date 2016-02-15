@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace DomainModels.Base
+namespace Domain.Shared
 {
     public abstract class ValueObject<T> : IEquatable<T> where T : ValueObject<T>
     {

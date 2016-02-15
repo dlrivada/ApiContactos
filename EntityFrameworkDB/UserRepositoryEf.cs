@@ -1,43 +1,42 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using DomainModels.Model;
-using Repositorio.RepositorioModels;
+using Domain.Model.ContactAggregate;
 
-namespace EntityFrameworkDB.Repositorios
+namespace Infrastructure.EntityFramework
 {
-    public class ContactoRepositorio : IContactoRepositorio
+    public class UserRepositoryEf : IUserRepository
     {
         private bool _disposed;
         private readonly DbContext _context;
 
-        public ContactoRepositorio(DbContext context)
+        public UserRepositoryEf(DbContext context)
         {
             _context = context;
         }
 
-        public virtual void Delete(Usuario auth, Contacto model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Update(User auth, User model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual void Update(Usuario auth, Contacto model) => _context.Entry(model).State = EntityState.Modified;
-
-        public virtual ICollection<Contacto> Get(Usuario auth, Expression<Func<Contacto, bool>> expression)
+        public virtual User Get(User auth, Expression<Func<User, bool>> expression)
         {
-            // TODO: Comprobar que el usuario est� autorizado y autenticado
+            // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos
             if (auth == null || expression == null)
                 return null; // TODO: Lanzar un error personalizado
 
-            return _context.Set<Contacto>().Where(expression).ToList();
+            return _context.Set<Contact>().Where(expression).First();
         }
 
-        public void Add(Usuario auth, Contacto model)
+        public User Validar(string login, string password) => _context.Set<Contact>().Single(o => o.Login == login && o.Password == password);
+
+        public void Add(User model)
         {
-            _context.Set<Contacto>().Add(model);
-            _context.Entry(model).State = EntityState.Added;
+            Contact contacto = _context.Set<Contact>().Find(model.Id);
+            _context.Set<Contact>().Add(contacto);
+            _context.Entry(contacto).State = EntityState.Added;
         }
 
         public void Save()
@@ -61,6 +60,7 @@ namespace EntityFrameworkDB.Repositorios
                 }
             }
         }
+
         public void Dispose()
         {
             Dispose(true);

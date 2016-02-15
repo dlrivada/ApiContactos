@@ -1,4 +1,4 @@
-﻿using DomainModels.Base;
+﻿using DomainModels.Shared;
 
 namespace Repositorio.RepositorioBase
 {

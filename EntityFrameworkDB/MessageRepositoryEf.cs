@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using DomainModels.Model;
-using Repositorio.RepositorioModels;
+using Domain.Model.ContactAggregate;
 
-namespace EntityFrameworkDB.Repositorios
+namespace Infrastructure.EntityFramework
 {
-    public class MensajeRepositorio : IMensajeRepositorio
+    public class MessageRepositoryEf : IMessageRepository
     {
         private bool _disposed;
         private readonly DbContext _context;
@@ -24,45 +23,45 @@ namespace EntityFrameworkDB.Repositorios
         // para tener nosotros siempre el control de la memoria consumida y del estado de la conexión
         // para eso hay que usar IoC 
         // Para acceder al almacen de instacias usar el DbSet<> del Context
-        public MensajeRepositorio(DbContext context)
+        public MessageRepositoryEf(DbContext context)
         {
             _context = context;
         }
 
-        public virtual void Add(Usuario auth, Mensaje model)
+        public virtual void Add(User auth, Message model)
         {
-            Contacto origen = _context.Set<Contacto>().First(c => c.Id == auth.Id);
+            Contact origen = _context.Set<Contact>().First(c => c.Id == auth.Id);
 
             // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos
-            if (auth == null || origen == null || model?.Destino == null)
+            if (auth == null || origen == null || model?.To == null)
                 return; // TODO: Lanzar un error personalizado
             // La entidad no debe existir ya
-            if (!_context.Set<Mensaje>().Any(m => m.Id == model.Id))
+            if (!_context.Set<Message>().Any(m => m.Id == model.Id))
                 return; // TODO: Lanzar un error personalizado
             // El origen y el usuario logueado son el mismo
             if (auth.Login != origen.Login || auth.Password != origen.Password)
                 return; // TODO: Lanzar un error personalizado
             // El destino existe
-            if (!_context.Set<Contacto>().Any(u => u.Login == model.Destino.Login))
+            if (!_context.Set<Contact>().Any(u => u.Login == model.To.Login))
                 return; // TODO: Lanzar un error personalizado
             // Al menos tiene contenido
-            if (model.Contenido == string.Empty)
+            if (model.Body == string.Empty)
                 return; // TODO: Lanzar un error personalizado
 
-            origen.AddMensaje(model.Destino, model.Asunto, model.Contenido);
-            _context.Set<Mensaje>().Add(model);
+            origen.AddMensaje(model.To, model.Issue, model.Body);
+            _context.Set<Message>().Add(model);
             _context.Entry(model).State = EntityState.Added;
         }
 
-        public virtual ICollection<Mensaje> Get(Usuario auth, Expression<Func<Mensaje, bool>> expression)
+        public virtual ICollection<Message> Get(User auth, Expression<Func<Message, bool>> expression)
         {
             // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos
             if (auth == null || expression == null)
                 return null; // TODO: Lanzar un error personalizado
 
-            return _context.Set<Mensaje>().Where(expression).ToList();
+            return _context.Set<Message>().Where(expression).ToList();
         }
 
         public void Dispose()

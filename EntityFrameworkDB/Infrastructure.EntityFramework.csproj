@@ -7,8 +7,8 @@
     <ProjectGuid>{9763D781-4C95-4BD3-90B7-DF1486216D75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EntityFrameworkDB</RootNamespace>
-    <AssemblyName>EntityFrameworkDB</AssemblyName>
+    <RootNamespace>Infrastructure.EntityFramework</RootNamespace>
+    <AssemblyName>Infrastructure.EntityFramework</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -67,24 +67,20 @@
       <DependentUpon>201602021252438_ContactosMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model1.cs" />
+    <Compile Include="ContactsUow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositorios\ContactoRepositorio.cs" />
-    <Compile Include="Repositorios\MensajeRepositorio.cs" />
-    <Compile Include="Repositorios\UsuarioRepositorio.cs" />
+    <Compile Include="ContactRepositoryEf.cs" />
+    <Compile Include="MessageRepositoryEf.cs" />
+    <Compile Include="UserRepositoryEf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
+    <ProjectReference Include="..\DomainModels\Domain.csproj">
       <Project>{bb2cc008-21d9-4e25-bd2f-8b93b273c19b}</Project>
-      <Name>DomainModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RepositorioAdapter\Repositorio.csproj">
-      <Project>{6a1c665e-953b-43a3-a8db-5521d49cb8f2}</Project>
-      <Name>Repositorio</Name>
+      <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

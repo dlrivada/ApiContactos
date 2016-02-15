@@ -1,31 +1,30 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
-using DomainModels.Model;
-using EntityFrameworkDB.Repositorios;
+using Domain.Model.ContactAggregate;
+using Infrastructure.EntityFramework;
 using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
     [Authorize]
-    public class UsuariosController : ApiController
+    public class UsersController : ApiController
     {
         [Dependency]
-        private UsuarioRepositorio UsuarioRepositorio { get; }
+        private UserRepositoryEf UserRepository { get; }
 
-        public UsuariosController(UsuarioRepositorio usuarioRepositorio)
+        public UsersController(UserRepositoryEf userRepository)
         {
-            UsuarioRepositorio = usuarioRepositorio;
+            UserRepository = userRepository;
         }
 
         [AllowAnonymous]
         [Route("Register")]
         [HttpGet]
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetValido(string login, string password)
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetValid(string login, string password)
         {
-            Usuario data = UsuarioRepositorio.Validar(login, password);
+            User data = UserRepository.Validar(login, password);
             if (data == null)
                 return NotFound();
             return Ok(data);
@@ -33,12 +32,12 @@ namespace ApiContactos.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult Register(Usuario model)
+        [ResponseType(typeof(User))]
+        public IHttpActionResult Register(User model)
         {
             try
             {
-                UsuarioRepositorio.Add(model);
+                UserRepository.Add(model);
             }
             catch (Exception) // Podemos controlar excepción isunico
             {
@@ -49,7 +48,7 @@ namespace ApiContactos.Controllers
 
         [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(Usuario auth, Usuario model)
+        public IHttpActionResult Put(User auth, User model)
         {
             if (auth == null)
                 return Unauthorized();
@@ -60,15 +59,15 @@ namespace ApiContactos.Controllers
             if (auth.Id != model.Id || auth.Login != model.Login)
                 return Unauthorized(); 
 
-            Usuario usuario = UsuarioRepositorio.Get(auth, u => u.Id == model.Id);
-            if (usuario == null)
+            User user = UserRepository.Get(auth, u => u.Id == model.Id);
+            if (user == null)
                 return NotFound();
             
-            UsuarioRepositorio.Update(auth, usuario);
+            UserRepository.Update(auth, user);
 
             try
             {
-                UsuarioRepositorio.Save();
+                UserRepository.Save();
             }
             catch (Exception)
             {

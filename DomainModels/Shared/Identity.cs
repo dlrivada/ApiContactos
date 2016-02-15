@@ -1,4 +1,4 @@
-namespace DomainModels.Base
+namespace Domain.Shared
 {
     public abstract class Identity : DomainModel
     {

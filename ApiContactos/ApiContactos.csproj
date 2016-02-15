@@ -125,9 +125,9 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ContactosController.cs" />
-    <Compile Include="Controllers\MensajesController.cs" />
-    <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,17 +151,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DomainModels\DomainModels.csproj">
+    <ProjectReference Include="..\DomainModels\Domain.csproj">
       <Project>{bb2cc008-21d9-4e25-bd2f-8b93b273c19b}</Project>
-      <Name>DomainModels</Name>
+      <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EntityFrameworkDB\EntityFrameworkDB.csproj">
+    <ProjectReference Include="..\EntityFrameworkDB\Infrastructure.EntityFramework.csproj">
       <Project>{9763d781-4c95-4bd3-90b7-df1486216d75}</Project>
-      <Name>EntityFrameworkDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RepositorioAdapter\Repositorio.csproj">
-      <Project>{6a1c665e-953b-43a3-a8db-5521d49cb8f2}</Project>
-      <Name>Repositorio</Name>
+      <Name>Infrastructure.EntityFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

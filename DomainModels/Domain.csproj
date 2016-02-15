@@ -7,8 +7,8 @@
     <ProjectGuid>{BB2CC008-21D9-4E25-BD2F-8B93B273C19B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DomainModels</RootNamespace>
-    <AssemblyName>DomainModels</AssemblyName>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Contacto.cs" />
-    <Compile Include="Base\DomainModel.cs" />
-    <Compile Include="Base\Identity.cs" />
-    <Compile Include="Model\Mensaje.cs" />
-    <Compile Include="Base\ValueObject.cs" />
+    <Compile Include="Model\ContactAggregate\Contact.cs" />
+    <Compile Include="Shared\IRepository.cs" />
+    <Compile Include="Model\ContactAggregate\IContactRepository.cs" />
+    <Compile Include="Model\ContactAggregate\IMessageRepository.cs" />
+    <Compile Include="Model\ContactAggregate\IUserRepository.cs" />
+    <Compile Include="Shared\DomainModel.cs" />
+    <Compile Include="Shared\Identity.cs" />
+    <Compile Include="Model\ContactAggregate\Message.cs" />
+    <Compile Include="Shared\IEntity.cs" />
+    <Compile Include="Shared\ValueObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Usuario.cs" />
+    <Compile Include="Model\ContactAggregate\User.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
