@@ -62,9 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201602021252438_ContactosMigration.cs" />
-    <Compile Include="Migrations\201602021252438_ContactosMigration.Designer.cs">
-      <DependentUpon>201602021252438_ContactosMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201602151731304_ContactosMigration.cs" />
+    <Compile Include="Migrations\201602151731304_ContactosMigration.Designer.cs">
+      <DependentUpon>201602151731304_ContactosMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ContactsUow.cs" />
@@ -84,8 +84,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602021252438_ContactosMigration.resx">
-      <DependentUpon>201602021252438_ContactosMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602151731304_ContactosMigration.resx">
+      <DependentUpon>201602151731304_ContactosMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,7 +9,6 @@ using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
-    [Authorize]
     public class ContactsController : ApiController
     {
         [Dependency]

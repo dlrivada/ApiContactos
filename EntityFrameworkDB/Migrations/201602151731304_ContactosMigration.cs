@@ -1,7 +1,8 @@
-using System.Data.Entity.Migrations;
-
 namespace Infrastructure.EntityFramework.Migrations
 {
+    using System;
+    using System.Data.Entity.Migrations;
+    
     public partial class ContactosMigration : DbMigration
     {
         public override void Up()
@@ -11,29 +12,29 @@ namespace Infrastructure.EntityFramework.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Asunto = c.String(nullable: false, maxLength: 50),
-                        Contenido = c.String(nullable: false, maxLength: 500),
-                        Leido = c.Boolean(nullable: false),
-                        Fecha = c.DateTime(nullable: false),
-                        IdOrigen = c.Int(),
+                        Issue = c.String(nullable: false, maxLength: 50),
+                        Body = c.String(nullable: false, maxLength: 500),
+                        Readed = c.Boolean(nullable: false),
+                        CreatedDate = c.DateTime(nullable: false),
                         IdDestino = c.Int(),
+                        IdOrigen = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Usuario", t => t.IdOrigen)
                 .ForeignKey("dbo.Usuario", t => t.IdDestino)
-                .Index(t => t.IdOrigen)
-                .Index(t => t.IdDestino);
+                .ForeignKey("dbo.Usuario", t => t.IdOrigen)
+                .Index(t => t.IdDestino)
+                .Index(t => t.IdOrigen);
             
             CreateTable(
                 "dbo.Usuario",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        FirstName = c.String(nullable: false, maxLength: 50),
+                        LastName = c.String(nullable: false, maxLength: 50),
+                        Photo = c.String(maxLength: 50),
                         Login = c.String(maxLength: 255),
                         Password = c.String(nullable: false, maxLength: 50),
-                        Nombre = c.String(nullable: false, maxLength: 50),
-                        Apellidos = c.String(nullable: false, maxLength: 50),
-                        Foto = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Login, unique: true, name: "Index");
@@ -55,15 +56,15 @@ namespace Infrastructure.EntityFramework.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Mensaje", "IdDestino", "dbo.Usuario");
             DropForeignKey("dbo.Mensaje", "IdOrigen", "dbo.Usuario");
+            DropForeignKey("dbo.Mensaje", "IdDestino", "dbo.Usuario");
             DropForeignKey("dbo.Contacto", "IdAmigo", "dbo.Usuario");
             DropForeignKey("dbo.Contacto", "IdUsuario", "dbo.Usuario");
             DropIndex("dbo.Contacto", new[] { "IdAmigo" });
             DropIndex("dbo.Contacto", new[] { "IdUsuario" });
             DropIndex("dbo.Usuario", "Index");
-            DropIndex("dbo.Mensaje", new[] { "IdDestino" });
             DropIndex("dbo.Mensaje", new[] { "IdOrigen" });
+            DropIndex("dbo.Mensaje", new[] { "IdDestino" });
             DropTable("dbo.Contacto");
             DropTable("dbo.Usuario");
             DropTable("dbo.Mensaje");
