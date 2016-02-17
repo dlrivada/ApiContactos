@@ -70,6 +70,4 @@ namespace Infrastructure.EntityFramework
                 .WithOptional(m => m.To).Map(map => map.MapKey("IdDestino"));
         }
     }
-
-
 }

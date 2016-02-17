@@ -84,7 +84,7 @@ namespace Domain.Model.ContactAggregate
                 return false;
             }
 
-            var other = (Message)obj;
+            Message other = (Message)obj;
             return SameIdentityAs(other);
         }
 

@@ -47,7 +47,7 @@ namespace Infrastructure.EntityFramework
             }
             catch (UpdateException ex)
             {
-                var sqlException = ex.InnerException as SqlException;
+                SqlException sqlException = ex.InnerException as SqlException;
 
                 if (sqlException != null && sqlException.Errors.OfType<SqlError>()
                     .Any(se => se.Number == 2601 || se.Number == 2627 /* PK/UKC violation */))
