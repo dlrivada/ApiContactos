@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
+    [Authorize]
     public class MessagesController : ApiController
     {
         [Dependency]
@@ -23,14 +24,14 @@ namespace ApiContactos.Controllers
 
         [HttpPost]
         [ResponseType(typeof(Message))]
-        public IHttpActionResult Post(User auth, Message model)
+        public IHttpActionResult Post(Usuario auth, Message model)
         {
             if (auth == null)
                 return Unauthorized();
             if (model == null)
                 return NotFound();
             // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == model.Id);
+            Usuario user = UserRepository.Get(auth, u => u.Id == model.Id);
             if (user == null)
                 return NotFound();
             // El origen y el usuario logueado son el mismo
@@ -50,12 +51,12 @@ namespace ApiContactos.Controllers
 
         [HttpGet]
         [ResponseType(typeof(ICollection<Message>))]
-        public IHttpActionResult GetMessagesList(User auth)
+        public IHttpActionResult GetMessagesList(Usuario auth)
         {
             if (auth == null)
                 return Unauthorized();
             // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == auth.Id);
+            Usuario user = UserRepository.Get(auth, u => u.Id == auth.Id);
             if (user == null)
                 return Unauthorized();
 

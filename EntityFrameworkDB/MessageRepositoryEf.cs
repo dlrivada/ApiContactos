@@ -23,12 +23,12 @@ namespace Infrastructure.EntityFramework
         // para tener nosotros siempre el control de la memoria consumida y del estado de la conexión
         // para eso hay que usar IoC 
         // Para acceder al almacen de instacias usar el DbSet<> del Context
-        public MessageRepositoryEf(DbContext context)
+        public MessageRepositoryEf()
         {
-            _context = context;
+            _context = new ContactsUow();
         }
 
-        public virtual void Add(User auth, Message model)
+        public virtual void Add(Usuario auth, Message model)
         {
             Contact origen = _context.Set<Contact>().First(c => c.Id == auth.Id);
 
@@ -54,7 +54,7 @@ namespace Infrastructure.EntityFramework
             _context.Entry(model).State = EntityState.Added;
         }
 
-        public virtual ICollection<Message> Get(User auth, Expression<Func<Message, bool>> expression)
+        public virtual ICollection<Message> Get(Usuario auth, Expression<Func<Message, bool>> expression)
         {
             // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos

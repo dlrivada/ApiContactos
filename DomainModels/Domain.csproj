@@ -52,7 +52,7 @@
     <Compile Include="Shared\IEntity.cs" />
     <Compile Include="Shared\ValueObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\ContactAggregate\User.cs" />
+    <Compile Include="Model\ContactAggregate\Usuario.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

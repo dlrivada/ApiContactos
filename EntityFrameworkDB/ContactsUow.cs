@@ -32,10 +32,6 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Contact>().ToTable("Usuario");
             modelBuilder.Entity<Contact>().HasKey(c => c.Id);
             modelBuilder.Entity<Contact>().Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Contact>().Property(c => c.Password).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Contact>().Property(c => c.FirstName).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Contact>().Property(c => c.LastName).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Contact>().Property(c => c.Photo).HasMaxLength(50);
 
             // IsUnique implementation
             modelBuilder.Entity<Contact>().Property(c => c.Login).HasMaxLength(255)
@@ -48,8 +44,6 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Message>().ToTable("Mensaje");
             modelBuilder.Entity<Message>().HasKey(m => m.Id);
             modelBuilder.Entity<Message>().Property(m => m.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            modelBuilder.Entity<Message>().Property(m => m.Issue).IsRequired().HasMaxLength(50);
-            modelBuilder.Entity<Message>().Property(m => m.Body).IsRequired().HasMaxLength(500);
 
             modelBuilder.Entity<Contact>()
             .HasMany(entity => entity.Contacts)

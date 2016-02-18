@@ -13,48 +13,33 @@ namespace ApiContactos.Controllers
     {
         [Dependency]
         private ContactRepositoryEf ContactRepository { get; }
-        [Dependency]
-        private UserRepositoryEf UserRepository { get; }
 
-        public ContactsController(ContactRepositoryEf contactRepository, UserRepositoryEf userRepository)
+        public ContactsController()
         {
-            ContactRepository = contactRepository;
-            UserRepository = userRepository;
+            ContactRepository = new ContactRepositoryEf();
         }
 
+        [Authorize]
         [HttpGet]
         [ResponseType(typeof(ICollection<Contact>))]
-        public IHttpActionResult GetContacts(User auth)
+        public IHttpActionResult Get()
         {
-            if (auth == null)
-                return Unauthorized();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == auth.Id);
-            if (user == null)
-                return Unauthorized();
-
             List<Contact> data = new List<Contact>();
-            data.AddRange(ContactRepository.Get(auth, u => u.Id == user.Id));
+
+            data.AddRange(ContactRepository.Get(User.Identity.Name));
 
             return Ok(data);
         }
 
         [HttpPost]
         [ResponseType(typeof(Contact))]
-        public IHttpActionResult Post(User auth, Contact model)
+        public IHttpActionResult Post(Usuario auth, Contact model)
         {
-            if (auth == null)
-                return Unauthorized();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == auth.Id);
-            if (user == null)
-                return Unauthorized();
-
             try
             {
                 ContactRepository.Add(auth, model);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -63,22 +48,8 @@ namespace ApiContactos.Controllers
 
         [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(User auth, Contact model)
+        public IHttpActionResult Put(Usuario auth, Contact model)
         {
-            if (auth == null)
-                return Unauthorized();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == auth.Id);
-            if (user == null)
-                return Unauthorized();
-
-            Contact contactoAuth = ContactRepository.Get(auth, c => c.Id == user.Id).First();
-            if (contactoAuth == null)
-                return NotFound();
-            // El contacto a modificar es contacto del usuario actual
-            if (contactoAuth.Contacts.All(c => c.Id != model.Id))
-                return NotFound();
-
             ContactRepository.Update(auth, model);
 
             try
@@ -95,22 +66,8 @@ namespace ApiContactos.Controllers
 
         [HttpDelete]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Del(User auth, Contact model)
+        public IHttpActionResult Del(Usuario auth, Contact model)
         {
-            if (auth == null)
-                return Unauthorized();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            User user = UserRepository.Get(auth, u => u.Id == auth.Id);
-            if (user == null)
-                return Unauthorized();
-
-            Contact contactAuth = ContactRepository.Get(auth, c => c.Id == user.Id).First();
-            if (contactAuth == null)
-                return NotFound();
-            // El contacto a modificar es contacto del usuario actual
-            if (contactAuth.Contacts.All(c => c.Id != model.Id))
-                return NotFound();
-
             ContactRepository.Delete(auth, model);
 
             try

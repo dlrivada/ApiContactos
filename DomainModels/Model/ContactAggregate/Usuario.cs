@@ -3,17 +3,18 @@ using Domain.Shared;
 
 namespace Domain.Model.ContactAggregate
 {
-    public class User : Identity, IEntity<User>
+    public class Usuario : Identity, IEntity<Usuario>
     {
         #region Constr
 
-        public User(string login, string password)
+        public Usuario(string login, string password, string confirmPassword)
         {
             Login = login;
             Password = password;
+            ConfirmPassword = confirmPassword;
         }
 
-        protected User()
+        protected Usuario()
         {
             // Needed by Entity Framework
         }
@@ -43,10 +44,7 @@ namespace Domain.Model.ContactAggregate
         /// </summary>
         /// <param name="other">The other entity.</param>
         /// <returns>true if the identities are the same, regardles of other attributes.</returns>
-        public virtual bool SameIdentityAs(User other)
-        {
-            return other != null && Id.Equals(other.Id);
-        }
+        public virtual bool SameIdentityAs(Usuario other) => other != null && Id.Equals(other.Id);
 
         #endregion
 
@@ -55,28 +53,16 @@ namespace Domain.Model.ContactAggregate
         public override bool Equals(object obj)
         {
             if (this == obj)
-            {
                 return true;
-            }
             if (obj == null || GetType() != obj.GetType())
-            {
                 return false;
-            }
 
-            User other = (User)obj;
-            return SameIdentityAs(other);
+            return SameIdentityAs((Usuario)obj);
         }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode();
 
-
-        public override string ToString()
-        {
-            return Id.ToString();
-        }
+        public override string ToString() => Id.ToString();
 
         #endregion
     }

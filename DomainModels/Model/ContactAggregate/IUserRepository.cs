@@ -6,9 +6,9 @@ namespace Domain.Model.ContactAggregate
 {
     public interface IUserRepository : IRepository
     {
-        void Update(User authentication, User model);
-        void Add(User model);
-        User Get(User auth, Expression<Func<User, bool>> expression);
-        User Validar(string login, string password);
+        void Update(Usuario authentication, Usuario model);
+        void Add(Usuario model);
+        Usuario Get(Usuario auth, Expression<Func<Usuario, bool>> expression);
+        Usuario Validar(string login, string password);
     }
 }

@@ -18,18 +18,18 @@ namespace ApiContactos.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(User))]
+        [ResponseType(typeof(Usuario))]
         public IHttpActionResult GetValid(string login, string password)
         {
-            User data = UserRepository.Validar(login, password);
+            Usuario data = UserRepository.Validar(login, password);
             if (data == null)
                 return NotFound();
             return Ok(data);
         }
 
         [HttpPost]
-        [ResponseType(typeof(User))]
-        public IHttpActionResult Register(User model)
+        [ResponseType(typeof(Usuario))]
+        public IHttpActionResult Register(Usuario model)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ApiContactos.Controllers
 
         [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(User auth, User model)
+        public IHttpActionResult Put(Usuario auth, Usuario model)
         {
             if (auth == null)
                 return Unauthorized();
@@ -55,7 +55,7 @@ namespace ApiContactos.Controllers
             if (auth.Id != model.Id || auth.Login != model.Login)
                 return Unauthorized(); 
 
-            User user = UserRepository.Get(auth, u => u.Id == model.Id);
+            Usuario user = UserRepository.Get(auth, u => u.Id == model.Id);
             if (user == null)
                 return NotFound();
             

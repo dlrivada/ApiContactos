@@ -8,9 +8,10 @@ namespace Infrastructure.EntityFramework
 {
     public class AuthRepository : IDisposable
     {
-        private AuthContext _ctx;
+        private bool _disposed;
+        private readonly AuthContext _ctx;
 
-        private UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public AuthRepository()
         {
@@ -18,7 +19,7 @@ namespace Infrastructure.EntityFramework
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
         }
 
-        public async Task<IdentityResult> RegisterUser(User userModel)
+        public async Task<IdentityResult> RegisterUser(Usuario userModel)
         {
             IdentityUser user = new IdentityUser
             {
@@ -39,9 +40,24 @@ namespace Infrastructure.EntityFramework
 
         public void Dispose()
         {
-            _ctx.Dispose();
-            _userManager.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _ctx.Dispose();
+                _userManager.Dispose();
+            }
+
+            _disposed = true;
+        }
+
     }
 
 }

@@ -18,9 +18,9 @@ namespace Infrastructure.EntityFramework
             _context = context;
         }
 
-        public virtual void Update(User auth, User model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual void Update(Usuario auth, Usuario model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual User Get(User auth, Expression<Func<User, bool>> expression)
+        public virtual Usuario Get(Usuario auth, Expression<Func<Usuario, bool>> expression)
         {
             // TODO: Comprobar que el usuario está autorizado y autenticado
             // Los campos usuario, origen, model y model.destino no pueden ser nulos
@@ -30,9 +30,9 @@ namespace Infrastructure.EntityFramework
             return _context.Set<Contact>().Where(expression).First();
         }
 
-        public User Validar(string login, string password) => _context.Set<Contact>().Single(o => o.Login == login && o.Password == password);
+        public Usuario Validar(string login, string password) => _context.Set<Contact>().Single(o => o.Login == login && o.Password == password);
 
-        public void Add(User model)
+        public void Add(Usuario model)
         {
             Contact contacto = _context.Set<Contact>().Find(model.Id);
             _context.Set<Contact>().Add(contacto);

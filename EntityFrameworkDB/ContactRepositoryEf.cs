@@ -5,6 +5,7 @@ using System.Data.Entity.Core;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using Domain.Model.ContactAggregate;
 
 namespace Infrastructure.EntityFramework
@@ -14,26 +15,18 @@ namespace Infrastructure.EntityFramework
         private bool _disposed;
         private readonly DbContext _context;
 
-        public ContactRepositoryEf(DbContext context)
+        public ContactRepositoryEf()
         {
-            _context = context;
+            _context = new ContactsUow();
         }
 
-        public virtual void Delete(User auth, Contact model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Delete(Usuario auth, Contact model) => _context.Entry(model).State = EntityState.Deleted;
 
-        public virtual void Update(User auth, Contact model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual void Update(Usuario auth, Contact model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual ICollection<Contact> Get(User auth, Expression<Func<Contact, bool>> expression)
-        {
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            // Los campos usuario, origen, model y model.destino no pueden ser nulos
-            if (auth == null || expression == null)
-                return null; // TODO: Lanzar un error personalizado
+        public virtual ICollection<Contact> Get(string login) => _context.Set<Contact>().SingleOrDefault(c => c.Login == login)?.Contacts.ToList();
 
-            return _context.Set<Contact>().Where(expression).ToList();
-        }
-
-        public void Add(User auth, Contact model)
+        public void Add(Usuario auth, Contact model)
         {
             _context.Set<Contact>().Add(model);
             _context.Entry(model).State = EntityState.Added;

@@ -3,28 +3,28 @@ using System.Web.Http;
 using Domain.Model.ContactAggregate;
 using Infrastructure.EntityFramework;
 using Microsoft.AspNet.Identity;
+using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private AuthRepository _repo = null;
+        private AuthRepository Repo { get; }
 
         public AccountController()
         {
-            _repo = new AuthRepository();
+            Repo = new AuthRepository();
         }
-
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
-        public async Task<IHttpActionResult> Register(User userModel)
+        public async Task<IHttpActionResult> Register(Usuario userModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            IdentityResult result = await _repo.RegisterUser(userModel);
+            IdentityResult result = await Repo.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -34,7 +34,7 @@ namespace ApiContactos.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-                _repo.Dispose();
+                Repo.Dispose();
 
             base.Dispose(disposing);
         }

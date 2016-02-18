@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Domain.Model.ContactAggregate
 {
-    public class Contact : User
+    public class Contact : Usuario
     {
         #region Props
 
@@ -33,7 +33,7 @@ namespace Domain.Model.ContactAggregate
         }
 
         public Contact(string login, string password, string firstName, string lastName, string photo)
-            : base(login, password)
+            : base(login, password, password)
         {
             FirstName = firstName;
             LastName = lastName;

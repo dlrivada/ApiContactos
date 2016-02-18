@@ -16,12 +16,12 @@ namespace Infrastructure.EntityFramework.Migrations
         {
             List<Contact> usuarios = new List<Contact>()
             {
-                new Contact ("user1", "user1", "Usuario 1", "Apellidos 1"),
-                new Contact ("user2", "user2", "Usuario 2", "Apellidos 2"),
-                new Contact ("user3", "user3", "Usuario 3", "Apellidos 3"),
-                new Contact ("user4", "user4", "Usuario 4", "Apellidos 4"),
-                new Contact ("user5", "user5", "Usuario 5", "Apellidos 5"),
-                new Contact ("user6", "user6", "Usuario 6", "Apellidos 6")
+                new Contact ("user1@dominio.com", "password", "Usuario 1", "Apellidos 1"),
+                new Contact ("user2@dominio.com", "password", "Usuario 2", "Apellidos 2"),
+                new Contact ("user3@dominio.com", "password", "Usuario 3", "Apellidos 3"),
+                new Contact ("user4@dominio.com", "password", "Usuario 4", "Apellidos 4"),
+                new Contact ("user5@dominio.com", "password", "Usuario 5", "Apellidos 5"),
+                new Contact ("user6@dominio.com", "password", "Usuario 6", "Apellidos 6")
             };
 
             context.SaveChanges();
