@@ -31,13 +31,14 @@ namespace ApiContactos.Controllers
             return Ok(data);
         }
 
+        [Authorize]
         [HttpPost]
         [ResponseType(typeof(Contact))]
-        public IHttpActionResult Post(Usuario auth, Contact model)
+        public IHttpActionResult Post(Contact model)
         {
             try
             {
-                ContactRepository.Add(auth, model);
+                ContactRepository.Add(model);
             }
             catch (Exception)
             {
@@ -46,11 +47,12 @@ namespace ApiContactos.Controllers
             return Ok(model);
         }
 
+        [Authorize]
         [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Put(Usuario auth, Contact model)
+        public IHttpActionResult Put(Contact model)
         {
-            ContactRepository.Update(auth, model);
+            ContactRepository.Update(model);
 
             try
             {
@@ -64,11 +66,12 @@ namespace ApiContactos.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete]
         [ResponseType(typeof(void))]
-        public IHttpActionResult Del(Usuario auth, Contact model)
+        public IHttpActionResult Del(Contact model)
         {
-            ContactRepository.Delete(auth, model);
+            ContactRepository.Delete(model);
 
             try
             {

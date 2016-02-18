@@ -9,8 +9,8 @@ namespace Domain.Model.ContactAggregate
     {
         // TODO: Habría que implementar paginación y ordenación de datos
         ICollection<Contact> Get(string login);
-        void Add(Usuario authentication, Contact model);
-        void Delete(Usuario authentication, Contact model);
-        void Update(Usuario authentication, Contact model);
+        void Add(Contact model);
+        void Delete(Contact model);
+        void Update(Contact model);
     }
 }

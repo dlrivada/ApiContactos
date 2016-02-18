@@ -110,7 +110,6 @@
     <Compile Include="ContactRepositoryEf.cs" />
     <Compile Include="MessageRepositoryEf.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
-    <Compile Include="UserRepositoryEf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
