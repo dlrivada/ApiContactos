@@ -1,12 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Domain.Model.ContactAggregate;
 
 namespace Infrastructure.EntityFramework
 {
-    public class ContactsUow : DbContext
+    public class ContactsContext : DbContext
     {
         // Your context has been configured to use a 'Model1' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -14,7 +13,7 @@ namespace Infrastructure.EntityFramework
         // 
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
-        public ContactsUow() : base("name=Model1")
+        public ContactsContext() : base("name=Model1")
         {
         }
 
@@ -34,12 +33,12 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Contact>().Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             // IsUnique implementation
-            modelBuilder.Entity<Contact>().Property(c => c.Login)
-                .HasColumnAnnotation("Index",
-                new IndexAnnotation(new[]
-                {
-                    new IndexAttribute("Index") { IsUnique = true }
-                }));
+            //modelBuilder.Entity<Contact>().Property(c => c.Login)
+            //    .HasColumnAnnotation("Index",
+            //    new IndexAnnotation(new[]
+            //    {
+            //        new IndexAttribute("Index") { IsUnique = true }
+            //    }));
 
             modelBuilder.Entity<Message>().ToTable("Mensaje");
             modelBuilder.Entity<Message>().HasKey(m => m.Id);
@@ -57,11 +56,13 @@ namespace Infrastructure.EntityFramework
 
             modelBuilder.Entity<Contact>()
                 .HasMany(c => c.MessagesSended)
-                .WithOptional(m => m.From).Map(map => map.MapKey("IdOrigen"));
+                .WithOptional(m => m.From)
+                .Map(map => map.MapKey("IdOrigen"));
 
             modelBuilder.Entity<Contact>()
                 .HasMany(c => c.MessagesReceived)
-                .WithOptional(m => m.To).Map(map => map.MapKey("IdDestino"));
+                .WithOptional(m => m.To)
+                .Map(map => map.MapKey("IdDestino"));
         }
     }
 }

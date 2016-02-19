@@ -15,7 +15,7 @@ namespace Infrastructure.EntityFramework
 
         public ContactRepositoryEf()
         {
-            _context = new ContactsUow();
+            _context = new ContactsContext();
         }
 
         public virtual void Delete(Contact model) => _context.Entry(model).State = EntityState.Deleted;
@@ -43,6 +43,7 @@ namespace Infrastructure.EntityFramework
             if (usuario == null)
                 return null;
             _context.Entry(usuario).Collection(c => c.MessagesSended).Load();
+            _context.Entry(usuario).Collection(c=>c.Contacts).Load();
             return usuario.MessagesSended;
         }
 
@@ -70,6 +71,7 @@ namespace Infrastructure.EntityFramework
             if (usuario == null)
                 return null;
             _context.Entry(usuario).Collection(c => c.MessagesReceived).Load();
+            _context.Entry(usuario).Collection(c => c.Contacts).Load();
             return usuario.MessagesReceived;
         }
 
