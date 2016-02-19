@@ -13,7 +13,7 @@ namespace Infrastructure.EntityFramework.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201602151731304_ContactosMigration"; }
+            get { return "201602191319027_ContactosMigration"; }
         }
         
         string IMigrationMetadata.Source

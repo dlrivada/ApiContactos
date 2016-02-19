@@ -1,5 +1,6 @@
 namespace Infrastructure.EntityFramework.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
     
     public partial class ContactosMigration : DbMigration
@@ -11,8 +12,8 @@ namespace Infrastructure.EntityFramework.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Issue = c.String(nullable: false, maxLength: 50),
-                        Body = c.String(nullable: false, maxLength: 500),
+                        Issue = c.String(maxLength: 100),
+                        Body = c.String(nullable: false),
                         Readed = c.Boolean(nullable: false),
                         CreatedDate = c.DateTime(nullable: false),
                         IdDestino = c.Int(),
@@ -30,13 +31,13 @@ namespace Infrastructure.EntityFramework.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         FirstName = c.String(nullable: false, maxLength: 50),
-                        LastName = c.String(nullable: false, maxLength: 50),
-                        Photo = c.String(maxLength: 50),
-                        Login = c.String(maxLength: 255),
-                        Password = c.String(nullable: false, maxLength: 50),
+                        LastName = c.String(maxLength: 50),
+                        Photo = c.String(),
+                        Login = c.String(nullable: false),
+                        Password = c.String(nullable: false, maxLength: 100),
+                        ConfirmPassword = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Login, unique: true, name: "Index");
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Contacto",
@@ -61,7 +62,6 @@ namespace Infrastructure.EntityFramework.Migrations
             DropForeignKey("dbo.Contacto", "IdUsuario", "dbo.Usuario");
             DropIndex("dbo.Contacto", new[] { "IdAmigo" });
             DropIndex("dbo.Contacto", new[] { "IdUsuario" });
-            DropIndex("dbo.Usuario", "Index");
             DropIndex("dbo.Mensaje", new[] { "IdOrigen" });
             DropIndex("dbo.Mensaje", new[] { "IdDestino" });
             DropTable("dbo.Contacto");

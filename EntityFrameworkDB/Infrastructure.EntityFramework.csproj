@@ -100,13 +100,9 @@
   <ItemGroup>
     <Compile Include="AuthContext.cs" />
     <Compile Include="AuthRepository.cs" />
-    <Compile Include="Migrations\201602151731304_ContactosMigration.cs" />
-    <Compile Include="Migrations\201602151731304_ContactosMigration.Designer.cs">
-      <DependentUpon>201602151731304_ContactosMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602190843500_ContactosMigration1.cs" />
-    <Compile Include="Migrations\201602190843500_ContactosMigration1.Designer.cs">
-      <DependentUpon>201602190843500_ContactosMigration1.cs</DependentUpon>
+    <Compile Include="Migrations\201602191319027_ContactosMigration.cs" />
+    <Compile Include="Migrations\201602191319027_ContactosMigration.Designer.cs">
+      <DependentUpon>201602191319027_ContactosMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ContactsUow.cs" />
@@ -125,11 +121,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602151731304_ContactosMigration.resx">
-      <DependentUpon>201602151731304_ContactosMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602190843500_ContactosMigration1.resx">
-      <DependentUpon>201602190843500_ContactosMigration1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602191319027_ContactosMigration.resx">
+      <DependentUpon>201602191319027_ContactosMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
