@@ -17,7 +17,6 @@ namespace ApiContactos
             // it is NOT necessary to register your controllers
 
             container.RegisterType<DbContext, ContactsUow>();
-            container.RegisterType<IMessageRepository, MessageRepositoryEf>();
             container.RegisterType<IContactRepository, ContactRepositoryEf>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);

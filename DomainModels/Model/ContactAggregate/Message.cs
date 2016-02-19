@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Domain.Shared;
 
 namespace Domain.Model.ContactAggregate
@@ -33,27 +34,36 @@ namespace Domain.Model.ContactAggregate
 
         #region Props
 
+        [StringLength(100, ErrorMessage = "The {0} must be no more than {1} characters long.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Issue")]
         public string Issue { get; private set; }
+        [Required]
+        [MaxLength]
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Body")]
         public string Body { get; private set; }
+        [Display(Name = "Readed")]
         public bool Readed { get; private set; }
+        [Required]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; private set; }
 
+        [Required]
+        [Display(Name = "To")]
         public Contact To { get; private set; }
+        [Required]
+        [Display(Name = "From")]
         public Contact From { get; private set; }
 
         #endregion
 
         #region Pub Methods
 
-        public void MarcarComoLeido()
-        {
-            Readed = true;
-        }
+        public void MarcarComoLeido() => Readed = true;
 
-        public void MarcarComoNoLeido()
-        {
-            Readed = false;
-        }
+        public void MarcarComoNoLeido() => Readed = false;
 
         #endregion
 

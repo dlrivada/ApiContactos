@@ -4,8 +4,6 @@ using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Claims;
 using Domain.Model.ContactAggregate;
 
 namespace Infrastructure.EntityFramework
@@ -37,6 +35,42 @@ namespace Infrastructure.EntityFramework
         {
             _context.Set<Contact>().Add(model);
             _context.Entry(model).State = EntityState.Added;
+        }
+
+        public ICollection<Message> SentMessages(string login)
+        {
+            Contact usuario = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+            if (usuario == null)
+                return null;
+            _context.Entry(usuario).Collection(c => c.MessagesSended).Load();
+            return usuario.MessagesSended;
+        }
+
+        public virtual void SendMessaje(string login, Message model)
+        {
+            Contact origen = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+
+            if (origen == null)
+                return; // TODO: Lanzar un error personalizado
+            // La entidad no debe existir ya
+            if (!_context.Set<Message>().Any(m => m.Id == model.Id))
+                return; // TODO: Lanzar un error personalizado
+            // El destino existe
+            if (!_context.Set<Contact>().Any(u => u.Login == model.To.Login))
+                return; // TODO: Lanzar un error personalizado
+
+            origen.AddMensaje(model.To, model.Issue, model.Body);
+            _context.Set<Message>().Add(model);
+            _context.Entry(model).State = EntityState.Added;
+        }
+
+        public virtual ICollection<Message> InboxMessages(string login)
+        {
+            Contact usuario = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+            if (usuario == null)
+                return null;
+            _context.Entry(usuario).Collection(c => c.MessagesReceived).Load();
+            return usuario.MessagesReceived;
         }
 
         public void Save()

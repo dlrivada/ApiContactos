@@ -34,7 +34,7 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Contact>().Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             // IsUnique implementation
-            modelBuilder.Entity<Contact>().Property(c => c.Login).HasMaxLength(255)
+            modelBuilder.Entity<Contact>().Property(c => c.Login)
                 .HasColumnAnnotation("Index",
                 new IndexAnnotation(new[]
                 {

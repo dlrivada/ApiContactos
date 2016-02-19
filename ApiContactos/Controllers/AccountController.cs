@@ -3,7 +3,6 @@ using System.Web.Http;
 using Domain.Model.ContactAggregate;
 using Infrastructure.EntityFramework;
 using Microsoft.AspNet.Identity;
-using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
@@ -11,11 +10,14 @@ namespace ApiContactos.Controllers
     public class AccountController : ApiController
     {
         private AuthRepository Repo { get; }
+        private ContactRepositoryEf ContactRepository { get; }
 
         public AccountController()
         {
             Repo = new AuthRepository();
+            ContactRepository = new ContactRepositoryEf();
         }
+        
         // POST api/Account/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -27,6 +29,8 @@ namespace ApiContactos.Controllers
             IdentityResult result = await Repo.RegisterUser(userModel);
 
             IHttpActionResult errorResult = GetErrorResult(result);
+
+            ContactRepository.Add(new Contact(userModel.Login, userModel.Password));
 
             return errorResult ?? Ok();
         }

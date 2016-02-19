@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Domain.Model.ContactAggregate;
@@ -77,5 +76,31 @@ namespace ApiContactos.Controllers
 
             return Ok();
         }
+
+        [Authorize]
+        [HttpPost]
+        [ResponseType(typeof(Message))]
+        public IHttpActionResult PostMessage(Message model)
+        {
+            try
+            {
+                ContactRepository.SendMessaje(User.Identity.Name, model);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [ResponseType(typeof(ICollection<Message>))]
+        public IHttpActionResult GetInboxMessages() => Ok(ContactRepository.InboxMessages(User.Identity.Name));
+
+        [Authorize]
+        [HttpGet]
+        [ResponseType(typeof(ICollection<Message>))]
+        public IHttpActionResult GetSentMessages() => Ok(ContactRepository.SentMessages(User.Identity.Name));
     }
 }
