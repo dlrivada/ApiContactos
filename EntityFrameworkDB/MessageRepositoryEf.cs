@@ -28,19 +28,13 @@ namespace Infrastructure.EntityFramework
             _context = new ContactsUow();
         }
 
-        public virtual void Add(Usuario auth, Message model)
+        public virtual void Add(string login, Message model)
         {
-            Contact origen = _context.Set<Contact>().First(c => c.Id == auth.Id);
-
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            // Los campos usuario, origen, model y model.destino no pueden ser nulos
-            if (auth == null || origen == null || model?.To == null)
+            Contact origen = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+            if (origen == null || model?.To == null)
                 return; // TODO: Lanzar un error personalizado
             // La entidad no debe existir ya
             if (!_context.Set<Message>().Any(m => m.Id == model.Id))
-                return; // TODO: Lanzar un error personalizado
-            // El origen y el usuario logueado son el mismo
-            if (auth.Login != origen.Login || auth.Password != origen.Password)
                 return; // TODO: Lanzar un error personalizado
             // El destino existe
             if (!_context.Set<Contact>().Any(u => u.Login == model.To.Login))
@@ -54,14 +48,13 @@ namespace Infrastructure.EntityFramework
             _context.Entry(model).State = EntityState.Added;
         }
 
-        public virtual ICollection<Message> Get(Usuario auth, Expression<Func<Message, bool>> expression)
+        public virtual ICollection<Message> Get(string login)
         {
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            // Los campos usuario, origen, model y model.destino no pueden ser nulos
-            if (auth == null || expression == null)
-                return null; // TODO: Lanzar un error personalizado
-
-            return _context.Set<Message>().Where(expression).ToList();
+            Contact usuario = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+            if (usuario == null)
+                return null;
+            _context.Entry(usuario).Collection(c => c.MessagesReceived).Load();
+            return usuario.MessagesReceived;
         }
 
         public void Dispose()

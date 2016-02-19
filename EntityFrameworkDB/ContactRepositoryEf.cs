@@ -20,13 +20,20 @@ namespace Infrastructure.EntityFramework
             _context = new ContactsUow();
         }
 
-        public virtual void Delete(Usuario auth, Contact model) => _context.Entry(model).State = EntityState.Deleted;
+        public virtual void Delete(Contact model) => _context.Entry(model).State = EntityState.Deleted;
 
-        public virtual void Update(Usuario auth, Contact model) => _context.Entry(model).State = EntityState.Modified;
+        public virtual void Update(Contact model) => _context.Entry(model).State = EntityState.Modified;
 
-        public virtual ICollection<Contact> Get(string login) => _context.Set<Contact>().SingleOrDefault(c => c.Login == login)?.Contacts.ToList();
+        public virtual ICollection<Contact> Get(string login)
+        {
+            Contact usuario = _context.Set<Contact>().SingleOrDefault(c => c.Login == login);
+            if (usuario == null)
+                return null;
+            _context.Entry(usuario).Collection(c => c.Contacts).Load();
+            return usuario.Contacts;
+        }
 
-        public void Add(Usuario auth, Contact model)
+        public void Add(Contact model)
         {
             _context.Set<Contact>().Add(model);
             _context.Entry(model).State = EntityState.Added;

@@ -16,7 +16,7 @@ namespace Infrastructure.EntityFramework.Migrations
         {
             List<Contact> usuarios = new List<Contact>()
             {
-                new Contact ("user1@dominio.com", "password", "Usuario 1", "Apellidos 1"),
+                new Contact ("david.lozano.rivada@tajamar365.com", "password", "Usuario 1", "Apellidos 1"),
                 new Contact ("user2@dominio.com", "password", "Usuario 2", "Apellidos 2"),
                 new Contact ("user3@dominio.com", "password", "Usuario 3", "Apellidos 3"),
                 new Contact ("user4@dominio.com", "password", "Usuario 4", "Apellidos 4"),
@@ -26,40 +26,34 @@ namespace Infrastructure.EntityFramework.Migrations
 
             context.SaveChanges();
 
-            usuarios.Single(c => c.Login == "user1")
-                .Contacts.Add(usuarios.Single(u => u.Login == "user2"));
-            usuarios.Single(c => c.Login == "user1")
-                .Contacts.Add(usuarios.Single(u => u.Login == "user3"));
-            usuarios.Single(c => c.Login == "user1")
-                .Contacts.Add(usuarios.Single(u => u.Login == "user5"));
+            usuarios.Single(c => c.Login == "david.lozano.rivada@tajamar365.com").Contacts.Add(usuarios.Single(u => u.Login == "user2@dominio.com"));
+            usuarios.Single(c => c.Login == "david.lozano.rivada@tajamar365.com").Contacts.Add(usuarios.Single(u => u.Login == "user3@dominio.com"));
+            usuarios.Single(c => c.Login == "david.lozano.rivada@tajamar365.com").Contacts.Add(usuarios.Single(u => u.Login == "user5@dominio.com"));
 
-            usuarios.Single(u => u.Login == "user1").AddMensaje(usuarios.Single(u => u.Login == "user2"), "Mensaje prueba 1", "Este es un mensaje de prueba. 1.");
-            usuarios.Single(u => u.Login == "user1").AddMensaje(usuarios.Single(u => u.Login == "user2"), "Mensaje prueba 2", "Este es un mensaje de prueba. 2.");
-            usuarios.Single(u => u.Login == "user1").AddMensaje(usuarios.Single(u => u.Login == "user3"), "Mensaje prueba 3", "Este es un mensaje de prueba. 3.");
+            usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com").AddMensaje(usuarios.Single(u => u.Login == "user2@dominio.com"), "Mensaje prueba 1", "Este es un mensaje de prueba. 1.");
+            usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com").AddMensaje(usuarios.Single(u => u.Login == "user2@dominio.com"), "Mensaje prueba 2", "Este es un mensaje de prueba. 2.");
+            usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com").AddMensaje(usuarios.Single(u => u.Login == "user3@dominio.com"), "Mensaje prueba 3", "Este es un mensaje de prueba. 3.");
 
-            usuarios.Single(c => c.Login == "user2")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user1"));
-            usuarios.Single(c => c.Login == "user2")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user4"));
+            usuarios.Single(c => c.Login == "user2@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"));
+            usuarios.Single(c => c.Login == "user2@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "user4@dominio.com"));
 
-            usuarios.Single(c => c.Login == "user3")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user1"));
+            usuarios.Single(c => c.Login == "user3@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"));
 
-            usuarios.Single(c => c.Login == "user4")
-                .Contacts.Add(usuarios.Single(u => u.Login == "user6"));
-            usuarios.Single(c => c.Login == "user4")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user2"));
+            usuarios.Single(c => c.Login == "user4@dominio.com").Contacts.Add(usuarios.Single(u => u.Login == "user6@dominio.com"));
+            usuarios.Single(c => c.Login == "user4@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "user2@dominio.com"));
 
-            usuarios.Single(u => u.Login == "user4").AddMensaje(usuarios.Single(u => u.Login == "user2"), "Mensaje prueba 4", "Este es un mensaje de prueba. 4.");
-            usuarios.Single(u => u.Login == "user4").AddMensaje(usuarios.Single(u => u.Login == "user6"), "Mensaje prueba 5", "Este es un mensaje de prueba. 5.");
-            usuarios.Single(u => u.Login == "user4").AddMensaje(usuarios.Single(u => u.Login == "user6"), "Mensaje prueba 6", "Este es un mensaje de prueba. 6.");
-            usuarios.Single(u => u.Login == "user4").AddMensaje(usuarios.Single(u => u.Login == "user2"), "Mensaje prueba 7", "Este es un mensaje de prueba. 7.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "user2@dominio.com"), "Mensaje prueba 4", "Este es un mensaje de prueba. 4.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "user6@dominio.com"), "Mensaje prueba 5", "Este es un mensaje de prueba. 5.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "user6@dominio.com"), "Mensaje prueba 6", "Este es un mensaje de prueba. 6.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "user2@dominio.com"), "Mensaje prueba 7", "Este es un mensaje de prueba. 7.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"), "Mensaje prueba 4", "Este es un mensaje de prueba. 4.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"), "Mensaje prueba 5", "Este es un mensaje de prueba. 5.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"), "Mensaje prueba 6", "Este es un mensaje de prueba. 6.");
+            usuarios.Single(u => u.Login == "user4@dominio.com").AddMensaje(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"), "Mensaje prueba 7", "Este es un mensaje de prueba. 7.");
 
-            usuarios.Single(c => c.Login == "user5")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user1"));
+            usuarios.Single(c => c.Login == "user5@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "david.lozano.rivada@tajamar365.com"));
 
-            usuarios.Single(c => c.Login == "user6")
-                .ContactsFrom.Add(usuarios.Single(u => u.Login == "user4"));
+            usuarios.Single(c => c.Login == "user6@dominio.com").ContactsFrom.Add(usuarios.Single(u => u.Login == "user4@dominio.com"));
 
             foreach (Contact usuario in usuarios)
             {

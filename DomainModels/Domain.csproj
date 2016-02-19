@@ -45,7 +45,6 @@
     <Compile Include="Shared\IRepository.cs" />
     <Compile Include="Model\ContactAggregate\IContactRepository.cs" />
     <Compile Include="Model\ContactAggregate\IMessageRepository.cs" />
-    <Compile Include="Model\ContactAggregate\IUserRepository.cs" />
     <Compile Include="Shared\DomainModel.cs" />
     <Compile Include="Shared\Identity.cs" />
     <Compile Include="Model\ContactAggregate\Message.cs" />

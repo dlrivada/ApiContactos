@@ -8,39 +8,24 @@ using Microsoft.Practices.Unity;
 
 namespace ApiContactos.Controllers
 {
-    [Authorize]
     public class MessagesController : ApiController
     {
         [Dependency]
-        private MessageRepositoryEf MessageRepository { get; }
-        [Dependency]
-        private UserRepositoryEf UserRepository { get; }
+        public MessageRepositoryEf MessageRepository { get; }
 
-        public MessagesController(MessageRepositoryEf messageRepository, UserRepositoryEf userRepository)
+        public MessagesController()
         {
-            MessageRepository = messageRepository;
-            UserRepository = userRepository;
+            MessageRepository = new MessageRepositoryEf();
         }
 
+        [Authorize]
         [HttpPost]
         [ResponseType(typeof(Message))]
-        public IHttpActionResult Post(Usuario auth, Message model)
+        public IHttpActionResult Post(Message model)
         {
-            if (auth == null)
-                return Unauthorized();
-            if (model == null)
-                return NotFound();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            Usuario user = UserRepository.Get(auth, u => u.Id == model.Id);
-            if (user == null)
-                return NotFound();
-            // El origen y el usuario logueado son el mismo
-            if (auth.Id != user.Id)
-                return Unauthorized();
-
             try
             {
-                MessageRepository.Add(auth, model);
+                MessageRepository.Add(User.Identity.Name, model);
             }
             catch (Exception)
             {
@@ -49,21 +34,9 @@ namespace ApiContactos.Controllers
             return Ok(model);
         }
 
+        [Authorize]
         [HttpGet]
         [ResponseType(typeof(ICollection<Message>))]
-        public IHttpActionResult GetMessagesList(Usuario auth)
-        {
-            if (auth == null)
-                return Unauthorized();
-            // TODO: Comprobar que el usuario está autorizado y autenticado
-            Usuario user = UserRepository.Get(auth, u => u.Id == auth.Id);
-            if (user == null)
-                return Unauthorized();
-
-            List<Message> data = new List<Message>();
-            data.AddRange(MessageRepository.Get(auth, u => u.From.Id == user.Id));
-            
-            return Ok(data);
-        }
+        public IHttpActionResult Get() => Ok(MessageRepository.Get(User.Identity.Name));
     }
 }
