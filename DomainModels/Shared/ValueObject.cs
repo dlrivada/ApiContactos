@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Domain.Shared
 {
-    public abstract class ValueObject<T> : IEquatable<T> where T : ValueObject<T>
+    public abstract class ValueObject<T> : IEquatable<T>, IDomainModel where T : ValueObject<T>, IDomainModel
     {
         public override bool Equals(object obj)
         {

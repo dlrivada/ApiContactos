@@ -3,12 +3,13 @@ using Domain.Shared;
 
 namespace Domain.Model.ContactAggregate
 {
-    public class Usuario : Identity, IEntity<Usuario>
+    public class Usuario : IEntity<Usuario>
     {
         #region Constr
 
         public Usuario(string login, string password, string confirmPassword)
         {
+            Id = 0;
             Login = login;
             Password = password;
             ConfirmPassword = confirmPassword;
@@ -16,13 +17,18 @@ namespace Domain.Model.ContactAggregate
 
         protected Usuario()
         {
-            // Needed by Entity Framework
+            Id = 0;
+            Login = string.Empty;
+            Password = string.Empty;
+            ConfirmPassword = string.Empty;
         }
 
         #endregion
 
         #region Props
 
+        [Required]
+        public int Id { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Login")]

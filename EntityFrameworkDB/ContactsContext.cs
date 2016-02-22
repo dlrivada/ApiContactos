@@ -32,14 +32,6 @@ namespace Infrastructure.EntityFramework
             modelBuilder.Entity<Contact>().HasKey(c => c.Id);
             modelBuilder.Entity<Contact>().Property(c => c.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-            // IsUnique implementation
-            //modelBuilder.Entity<Contact>().Property(c => c.Login)
-            //    .HasColumnAnnotation("Index",
-            //    new IndexAnnotation(new[]
-            //    {
-            //        new IndexAttribute("Index") { IsUnique = true }
-            //    }));
-
             modelBuilder.Entity<Message>().ToTable("Mensaje");
             modelBuilder.Entity<Message>().HasKey(m => m.Id);
             modelBuilder.Entity<Message>().Property(m => m.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

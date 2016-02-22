@@ -4,7 +4,7 @@ using Domain.Shared;
 
 namespace Domain.Model.ContactAggregate
 {
-    public class Message : Identity, IEntity<Message>
+    public class Message : IEntity<Message>
     {
         #region Constr
 
@@ -13,14 +13,12 @@ namespace Domain.Model.ContactAggregate
         {
         }
 
-        public Message(Contact from, Contact to, string issue, string body)
+        public Message(Contact from, Contact to, string issue, string body) : this()
         {
             From = from;
             To = to;
             Issue = issue;
             Body = body;
-            Readed = false;
-            CreatedDate = DateTime.Now;
         }
 
         protected Message()
@@ -33,6 +31,9 @@ namespace Domain.Model.ContactAggregate
         #endregion
 
         #region Props
+
+        [Required]
+        public int Id { get; set; }
 
         [StringLength(100, ErrorMessage = "The {0} must be no more than {1} characters long.")]
         [DataType(DataType.Text)]
@@ -86,28 +87,18 @@ namespace Domain.Model.ContactAggregate
         public override bool Equals(object obj)
         {
             if (this == obj)
-            {
                 return true;
-            }
             if (obj == null || GetType() != obj.GetType())
-            {
                 return false;
-            }
 
             Message other = (Message)obj;
             return SameIdentityAs(other);
         }
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode();
 
 
-        public override string ToString()
-        {
-            return Id.ToString();
-        }
+        public override string ToString() => Id.ToString();
 
         #endregion
 
